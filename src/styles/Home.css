@@ -1,0 +1,33 @@
+.home {
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(270deg, #780C28, #CAE0BC, #EAFAEA, #6E8E59);
+  background-size: 400% 400%;
+  animation: gradientAnimation 20s ease infinite;
+  color: #780C28;
+}
+
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Hero Section Animations */
+.hero h1 {
+  animation: slideInDown 1s ease;
+}
+
+@keyframes slideInDown {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.hero p {
+  animation: fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

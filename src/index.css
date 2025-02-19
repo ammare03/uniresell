@@ -1,99 +1,10 @@
-/* Global Styles */
-body {
-  font-family: Arial, sans-serif;
+* {
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
-}
-
-/* Header styles */
-header {
-  background-color: #333;
-  color: #fff;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-header nav ul {
-  list-style: none;
-  display: flex;
-  margin: 0;
-  padding: 0;
-}
-
-header nav ul li {
-  margin: 0 10px;
-}
-
-header nav ul li a {
-  color: #fff;
-  text-decoration: none;
-}
-
-/* Footer styles */
-footer {
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  padding: 10px 0;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
-
-/* Main content styles */
-main {
-  padding: 20px;
-  margin-bottom: 60px; /* To avoid overlapping with the fixed footer */
-}
-
-.hero {
-  text-align: center;
-  padding: 50px 0;
-}
-
-.features ul {
-  list-style: none;
-  padding: 0;
-}
-
-.features ul li {
-  padding: 5px 0;
-}
-
-/* Form styles for the Sell page */
-.sell form {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.sell form div {
-  margin-bottom: 15px;
-}
-
-.sell form label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.sell form input,
-.sell form textarea {
-  width: 100%;
-  padding: 8px;
   box-sizing: border-box;
 }
 
-.sell form button {
-  padding: 10px 20px;
-  background-color: #333;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-.sell form button:hover {
-  background-color: #555;
+body {
+  background-color: #F5F5F5;
+  font-family: Arial, sans-serif;
 }

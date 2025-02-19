@@ -1,8 +1,9 @@
 import React from 'react';
+import '../styles/Footer.css';
 
 function Footer() {
   return (
-    <footer>
+    <footer className="footer">
       <p>&copy; {new Date().getFullYear()} UniResell. All rights reserved.</p>
     </footer>
   );

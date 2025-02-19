@@ -1,0 +1,12 @@
+.product-carousel {
+  width: 90%;           /* 10% smaller than full width */
+  margin: 0 auto;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.product-carousel .carousel-item img {
+  border-radius: 15px;
+  object-fit: cover;
+}
