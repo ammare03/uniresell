@@ -1,22 +1,27 @@
 .custom-header {
-  background-color: #780C28;
-  color: #EAFAEA;
+  background-color: #251B37; /* Primary dark */
+  color: #FFECEF;           /* Lightest accent */
   position: relative;
   padding: 10px 0;
+  border-bottom: 2px solid #FFCACA;
 }
 
 .header-content {
   position: relative;
-  z-index: 200;
+  z-index: 300;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .hamburger {
   cursor: pointer;
-  background: linear-gradient(45deg, #6E8E59, #CAE0BC);
+  background: linear-gradient(45deg, #372948, #FFCACA); /* Secondary to accent */
   padding: 10px;
-  border-radius: 6px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
   transition: transform 0.3s ease;
+  margin-left: -30px;
 }
 
 .hamburger:hover {
@@ -26,7 +31,7 @@
 .hamburger .bar {
   width: 25px;
   height: 3px;
-  background-color: #EAFAEA;
+  background-color: #FFECEF;
   margin: 4px 0;
   border-radius: 2px;
 }
@@ -34,40 +39,48 @@
 .site-title {
   font-size: 1.8rem;
   font-weight: bold;
-  color: #EAFAEA;
+  color: #FFECEF;
 }
 
-.offcanvas-menu {
+/* Floating Menu Styles */
+.floating-menu {
   position: fixed;
-  top: 0;
-  left: -250px;
-  width: 250px;
-  height: 100%;
-  background-color: #6E8E59;
-  color: #EAFAEA;
-  transition: left 0.3s ease;
-  z-index: 150;
-  padding-top: 60px;
-}
-
-.offcanvas-menu.open {
+  top: 60px; /* just below the header */
   left: 0;
+  width: 50vw;  /* occupies half the viewport width */
+  max-width: 300px;
+  background-color: #372948; /* secondary dark */
+  padding: 20px;
+  border: 2px solid #FFCACA; /* accent outline */
+  border-radius: 10px;
+  z-index: 250;
 }
 
-.offcanvas-menu ul {
-  list-style: none;
-  padding: 0;
+.menu-item {
+  margin-bottom: 15px;
+  border: 1px solid #FFCACA;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #251B37; /* primary dark */
+  transition: background-color 0.3s ease;
 }
 
-.offcanvas-menu ul li {
-  margin: 20px;
+.menu-item:hover {
+  background-color: #372948;
 }
 
-.offcanvas-menu ul li a,
-.offcanvas-menu ul li button {
-  color: #EAFAEA;
+.menu-item a,
+.menu-item button {
+  color: #FFECEF;
   text-decoration: none;
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   background: none;
   border: none;
+}
+
+.menu-icon {
+  color: #FFCACA;
 }

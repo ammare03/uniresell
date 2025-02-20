@@ -1,10 +1,11 @@
+// src/pages/Home.js
 import React from 'react';
 import ProductCarousel from '../components/ProductCarousel';
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import { FaUserPlus, FaUpload, FaShoppingCart } from 'react-icons/fa';
 import '../styles/Home.css';
 
 function Home() {
-  // Use placeholder images (you can change these later)
   const products = [
     {
       image: 'https://picsum.photos/seed/1/1200/500',
@@ -46,7 +47,68 @@ function Home() {
           <ProductCarousel items={products} />
         </Container>
       </section>
-      
+
+      <section className="how-it-works py-5">
+        <Container>
+          <h2 className="mb-4 text-center">How It Works</h2>
+          <Row className="text-center">
+            <Col md={4}>
+              <div className="step">
+                <FaUserPlus size={40} />
+                <h4>Sign Up</h4>
+                <p>Create an account to start listing your items.</p>
+              </div>
+            </Col>
+            <Col md={4}>
+              <div className="step">
+                <FaUpload size={40} />
+                <h4>List Your Items</h4>
+                <p>Upload your books, notes, and more with ease.</p>
+              </div>
+            </Col>
+            <Col md={4}>
+              <div className="step">
+                <FaShoppingCart size={40} />
+                <h4>Sell & Connect</h4>
+                <p>Sell your items and connect with other students.</p>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+
+      <section className="popular-categories py-5">
+        <Container>
+          <h2 className="mb-4 text-center">Popular Categories</h2>
+          <Row className="justify-content-center">
+            <Col xs={6} md={3}>
+              <div className="category-card">
+                <img src="https://picsum.photos/seed/cat1/300/200" alt="Textbooks" />
+                <h5 className="mt-2">Textbooks</h5>
+              </div>
+            </Col>
+            <Col xs={6} md={3}>
+              <div className="category-card">
+                <img src="https://picsum.photos/seed/cat2/300/200" alt="Notes" />
+                <h5 className="mt-2">Notes</h5>
+              </div>
+            </Col>
+            <Col xs={6} md={3}>
+              <div className="category-card">
+                <img src="https://picsum.photos/seed/cat3/300/200" alt="Stationery" />
+                <h5 className="mt-2">Stationery</h5>
+              </div>
+            </Col>
+            <Col xs={6} md={3}>
+              <div className="category-card">
+                <img src="https://picsum.photos/seed/cat4/300/200" alt="Accessories" />
+                <h5 className="mt-2">Accessories</h5>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+
       <section className="additional-info py-5">
         <Container>
           <Row className="align-items-center">

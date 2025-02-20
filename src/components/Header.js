@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { FaHome, FaShoppingCart, FaSignInAlt, FaUserPlus, FaSignOutAlt } from 'react-icons/fa';
 import '../styles/Header.css';
 
 function Header() {
@@ -21,42 +22,42 @@ function Header() {
           <div className="bar"></div>
           <div className="bar"></div>
         </div>
-        <div className="site-title text-center">UniResell</div>
+        <div className="site-title">UniResell</div>
       </div>
-      <nav className={`offcanvas-menu ${menuOpen ? 'open' : ''}`}>
-        <ul>
-          <li>
+      {menuOpen && (
+        <div className="floating-menu">
+          <div className="menu-item">
             <Link to="/" onClick={() => setMenuOpen(false)}>
-              Home
+              <FaHome className="menu-icon" /> Home
             </Link>
-          </li>
-          <li>
+          </div>
+          <div className="menu-item">
             <Link to="/sell" onClick={() => setMenuOpen(false)}>
-              Sell
+              <FaShoppingCart className="menu-icon" /> Sell
             </Link>
-          </li>
+          </div>
           {isLoggedIn ? (
-            <li>
+            <div className="menu-item">
               <button onClick={() => { setMenuOpen(false); handleLogout(); }}>
-                Logout
+                <FaSignOutAlt className="menu-icon" /> Logout
               </button>
-            </li>
+            </div>
           ) : (
             <>
-              <li>
+              <div className="menu-item">
                 <Link to="/login" onClick={() => setMenuOpen(false)}>
-                  Login
+                  <FaSignInAlt className="menu-icon" /> Login
                 </Link>
-              </li>
-              <li>
+              </div>
+              <div className="menu-item">
                 <Link to="/signup" onClick={() => setMenuOpen(false)}>
-                  Sign Up
+                  <FaUserPlus className="menu-icon" /> Sign Up
                 </Link>
-              </li>
+              </div>
             </>
           )}
-        </ul>
-      </nav>
+        </div>
+      )}
     </header>
   );
 }

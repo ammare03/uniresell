@@ -1,19 +1,30 @@
+/* src/styles/Home.css */
 .home {
   min-height: 100vh;
   padding: 20px;
-  background: linear-gradient(270deg, #780C28, #CAE0BC, #EAFAEA, #6E8E59);
+  background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
   background-size: 400% 400%;
-  animation: gradientAnimation 20s ease infinite;
-  color: #780C28;
+  animation: gradientAnimation 20s ease infinite, textColorAnimation 20s ease infinite;
+  color: inherit; /* Let the animation control the text color */
 }
 
+/* Background Animation */
 @keyframes gradientAnimation {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-/* Hero Section Animations */
+/* Optional: Text Color Animation (adjust as needed) */
+@keyframes textColorAnimation {
+  0%   { color: #FFECEF; }
+  25%  { color: #FFECEF; }
+  50%  { color: #251B37; }
+  75%  { color: #251B37; }
+  100% { color: #251B37; }
+}
+
+/* Hero Section */
 .hero h1 {
   animation: slideInDown 1s ease;
 }
@@ -30,4 +41,61 @@
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* How It Works Section */
+.how-it-works {
+  background-color: rgba(37, 27, 55, 0.9); /* Slightly transparent primary dark */
+  color: #FFECEF;
+  padding: 40px 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.how-it-works h2 {
+  color: #FFCACA;
+  margin-bottom: 20px;
+}
+
+.how-it-works .step {
+  padding: 20px;
+}
+
+.how-it-works .step h4 {
+  margin-top: 10px;
+  color: #FFCACA;
+}
+
+/* Popular Categories Section */
+.popular-categories {
+  background-color: rgba(55, 41, 72, 0.9); /* Secondary dark with opacity */
+  color: #FFECEF;
+  padding: 40px 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.popular-categories h2 {
+  color: #FFCACA;
+  margin-bottom: 20px;
+}
+
+.popular-categories .category-card {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 2px solid #FFCACA;
+  border-radius: 10px;
+  background-color: #251B37;
+  transition: transform 0.3s ease;
+}
+
+.popular-categories .category-card:hover {
+  transform: scale(1.05);
+}
+
+.popular-categories .category-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
 }
