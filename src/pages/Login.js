@@ -1,13 +1,16 @@
 // src/pages/Login.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import '../styles/Login.css';
 
 function Login() {
   const [formData, setFormData] = useState({ abcId: '', password: '' });
   const [tip, setTip] = useState('');
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  // Simple array of tips
   const tips = [
     "Tip: A well-organized study routine is half the battle won.",
     "Tip: Try flashcards to remember tough concepts!",
@@ -16,7 +19,6 @@ function Login() {
     "Tip: Keep track of deadlines and plan ahead for a stress-free semester."
   ];
 
-  // Pick a random tip on mount
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * tips.length);
     setTip(tips[randomIndex]);
@@ -26,10 +28,14 @@ function Login() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Basic login logic or API call
-    alert(`Logging in with ABC ID: ${formData.abcId}`);
+    try {
+      await login(formData);
+      navigate('/'); // Redirect to homepage on successful login
+    } catch (err) {
+      console.error("Login error:", err);
+    }
   };
 
   return (

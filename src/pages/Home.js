@@ -1,11 +1,16 @@
 // src/pages/Home.js
-import React from 'react';
+import React, { useContext } from 'react';
 import ProductCarousel from '../components/ProductCarousel';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FaUserPlus, FaUpload, FaShoppingCart } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import '../styles/Home.css';
 
 function Home() {
+  const { isLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const products = [
     {
       image: 'https://picsum.photos/seed/1/1200/500',
@@ -29,6 +34,14 @@ function Home() {
     },
   ];
 
+  const handleGetStarted = () => {
+    if (isLoggedIn) {
+      navigate('/sell');
+    } else {
+      navigate('/signup');
+    }
+  };
+
   return (
     <div className="home">
       <section className="hero text-center py-5">
@@ -37,7 +50,9 @@ function Home() {
           <p className="lead">
             Your trusted marketplace for pre-loved university books and notes.
           </p>
-          <Button variant="light" size="lg">Get Started</Button>
+          <Button variant="light" size="lg" className='get-started-btn' onClick={handleGetStarted}>
+            Get Started
+          </Button>
         </Container>
       </section>
       

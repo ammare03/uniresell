@@ -1,25 +1,43 @@
+/* src/styles/Sell.css */
+
+/* Page Container with Animated Gradient Background */
 .sell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   min-height: 100vh;
   padding: 20px;
-  background: #F5F5F5;
-  color: #4B164C;
+  background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
+  background-size: 400% 400%;
+  animation: sellGradient 15s ease infinite;
+  color: #251B37;
 }
 
+@keyframes sellGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Sell Section Card Styling */
 .sell-section {
-  max-width: 600px;
+  width: 50vw;
   margin: 0 auto;
-  background-color: #F8E7F6;
+  background-color: #FFECEF;  /* Light background for the form card */
   padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 2px solid #372948;  /* Dark border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  color: #251B37;             /* Dark text */
 }
 
 .sell-section h2 {
   text-align: center;
-  color: #DD88CF;
+  color: #372948;             /* Dark heading for contrast */
   margin-bottom: 20px;
 }
 
+/* Form Element Styling */
 .form-group {
   margin-bottom: 15px;
 }
@@ -28,27 +46,39 @@
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
+  color: #251B37;
 }
 
 .form-group input,
 .form-group textarea {
   width: 100%;
   padding: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid #372948;
   border-radius: 4px;
+  background-color: #FFCACA;  /* Medium accent background */
+  color: #251B37;             /* Dark text for readability */
 }
 
+.form-group input:focus,
+.form-group textarea:focus {
+  background-color: #FFCACA;
+  box-shadow: 0 0 5px #372948;
+  border-color: #372948;
+}
+
+/* Button Styling */
 .form-group button {
   width: 100%;
   padding: 10px;
-  background-color: #DD88CF;
-  color: #F5F5F5;
+  background-color: #372948;  /* Dark background */
+  color: #FFECEF;             /* Light text */
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
+  transition: transform 0.3s ease;
 }
 
 .form-group button:hover {
-  background-color: #C47AB1;
+  transform: scale(1.03);
 }

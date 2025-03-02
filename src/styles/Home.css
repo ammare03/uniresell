@@ -4,7 +4,7 @@
   padding: 20px;
   background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
   background-size: 400% 400%;
-  animation: gradientAnimation 20s ease infinite, textColorAnimation 20s ease infinite;
+  animation: gradientAnimation 18s ease infinite, textColorAnimation 18s ease infinite;
   color: inherit; /* Let the animation control the text color */
 }
 
