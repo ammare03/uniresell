@@ -85,3 +85,15 @@
 .menu-icon {
   color: #FFCACA;
 }
+
+/* src/styles/Header.css */
+.nav-extra {
+  display: flex;
+  align-items: center;
+}
+
+.cart-link {
+  color: #EAFAEA;
+  margin-right: 10px;
+  text-decoration: none;
+}

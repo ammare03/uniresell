@@ -1,7 +1,8 @@
+// src/components/Header.js
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
 import { FaHome, FaShoppingCart, FaSignInAlt, FaUserPlus, FaSignOutAlt } from 'react-icons/fa';
+import { AuthContext } from '../context/AuthContext';
 import '../styles/Header.css';
 
 function Header() {
@@ -23,6 +24,12 @@ function Header() {
           <div className="bar"></div>
         </div>
         <div className="site-title">UniResell</div>
+        {/* Add Cart link/icon on the right side */}
+        <div className="nav-extra">
+          <Link to="/cart" className="cart-link">
+            <FaShoppingCart size={24} />
+          </Link>
+        </div>
       </div>
       {menuOpen && (
         <div className="floating-menu">

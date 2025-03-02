@@ -1,12 +1,7 @@
 /* src/styles/Sell.css */
-
-/* Page Container with Animated Gradient Background */
 .sell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  padding: 20px;
+  padding: 40px 20px;
   background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
   background-size: 400% 400%;
   animation: sellGradient 15s ease infinite;
@@ -19,66 +14,94 @@
   100% { background-position: 0% 50%; }
 }
 
-/* Sell Section Card Styling */
-.sell-section {
-  width: 50vw;
+/* Container to limit content width */
+.sell-container {
+  max-width: 800px;
   margin: 0 auto;
-  background-color: #FFECEF;  /* Light background for the form card */
-  padding: 30px;
-  border-radius: 10px;
-  border: 2px solid #372948;  /* Dark border */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  color: #251B37;             /* Dark text */
 }
 
-.sell-section h2 {
+/* Form Section (Sell Form Card) */
+.sell-form-card {
+  background: #FFECEF;
+  border: 2px solid #372948;
+  border-radius: 10px;
+  padding: 30px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  color: #251B37;
+}
+
+.sell-form-card h2 {
   text-align: center;
-  color: #372948;             /* Dark heading for contrast */
+  color: #372948;
   margin-bottom: 20px;
 }
 
-/* Form Element Styling */
-.form-group {
+/* Form Elements */
+.sell-form .form-group {
   margin-bottom: 15px;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
+.sell-form .form-label {
   font-weight: bold;
   color: #251B37;
 }
 
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 8px;
+.sell-form .form-control {
+  background: #FFCACA;
+  color: #251B37;
   border: 1px solid #372948;
   border-radius: 4px;
-  background-color: #FFCACA;  /* Medium accent background */
-  color: #251B37;             /* Dark text for readability */
+  transition: box-shadow 0.3s ease;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
-  background-color: #FFCACA;
+.sell-form .form-control:focus {
   box-shadow: 0 0 5px #372948;
   border-color: #372948;
 }
 
-/* Button Styling */
-.form-group button {
-  width: 100%;
-  padding: 10px;
-  background-color: #372948;  /* Dark background */
-  color: #FFECEF;             /* Light text */
+.sell-form button {
+  background: #372948;
+  color: #FFECEF;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
+  padding: 10px;
+  width: 100%;
+  margin-top: 10px;
   transition: transform 0.3s ease;
 }
 
-.form-group button:hover {
+.sell-form button:hover {
   transform: scale(1.03);
+}
+
+/* Active Ads Section */
+.active-ads {
+  margin-top: 40px;
+}
+
+.active-ads h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #372948;
+}
+
+.ad-card {
+  background: #FFECEF;
+  border: 2px solid #372948;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.ad-card img {
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.ad-card .card-body {
+  padding: 15px;
+  color: #251B37;
 }
