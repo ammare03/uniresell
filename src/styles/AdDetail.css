@@ -1,71 +1,90 @@
 /* src/styles/AdDetail.css */
 .ad-detail-page {
-    min-height: 100vh;
-    padding: 40px 20px;
-    background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
-    background-size: 400% 400%;
-    animation: adDetailGradient 15s ease infinite;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  @keyframes adDetailGradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  .ad-detail-container {
-    max-width: 900px;
-    width: 100%;
-  }
-  
-  .ad-detail-card {
-    background: #FFECEF;
-    border: 2px solid #372948;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-  }
-  
-  .ad-detail-card img {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-  }
-  
-  .ad-detail-content {
-    padding: 20px;
-    color: #251B37;
-  }
-  
-  .ad-detail-content h2 {
-    color: #372948;
-    margin-bottom: 15px;
-  }
-  
-  .ad-detail-content p {
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-  }
-  
-  .ad-detail-content .price {
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  .ad-detail-buttons {
-    margin-top: 20px;
-  }
-  
-  .ad-detail-buttons button {
-    margin-right: 10px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .ad-detail-buttons button:hover {
-    background-color: #372948;
-    color: #FFECEF;
-  }  
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
+  background-size: 400% 400%;
+  animation: adDetailGradient 15s ease infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes adDetailGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.ad-detail-container {
+  max-width: 900px;
+  width: 100%;
+}
+
+.ad-detail-card {
+  background: #FFECEF;
+  border: 2px solid #372948;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.ad-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-bottom: 4px solid #372948;
+}
+
+.ad-detail-content {
+  padding: 30px;
+  color: #251B37;
+}
+
+.ad-detail-content h2 {
+  color: #372948;
+  margin-bottom: 20px;
+  font-size: 2.2rem;
+}
+
+.ad-detail-content p {
+  font-size: 1.15rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #372948;
+}
+
+.ad-detail-buttons {
+  margin-top: 30px;
+}
+
+.ad-detail-buttons button {
+  margin-right: 15px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.ad-detail-buttons button:hover {
+  transform: scale(1.03);
+}
+
+.back-btn {
+  background-color: transparent;
+  border: 2px solid #FFECEF;
+  color: #FFECEF;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.back-btn:hover {
+  background-color: #FFECEF;
+  color: #251B37;
+}

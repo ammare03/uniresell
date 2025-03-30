@@ -1,5 +1,5 @@
 // src/components/Header.js
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaHome, FaShoppingCart, FaListAlt, FaSignInAlt, FaUserPlus, FaSignOutAlt } from 'react-icons/fa';
 import { AuthContext } from '../context/AuthContext';
@@ -14,6 +14,18 @@ function Header() {
     logout();
     navigate('/');
   };
+
+  // Hide the floating menu when the user scrolls
+  useEffect(() => {
+    const handleScroll = () => {
+      if (menuOpen) {
+        setMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [menuOpen]);
 
   return (
     <header className="custom-header">
@@ -42,11 +54,13 @@ function Header() {
               <FaShoppingCart className="menu-icon" /> Sell
             </Link>
           </div>
-          <div className="menu-item">
-            <Link to="/active-ads" onClick={() => setMenuOpen(false)}>
-              <FaListAlt className="menu-icon" /> Active Ads
-            </Link>
-          </div>
+          {isLoggedIn && (
+            <div className="menu-item">
+              <Link to="/active-ads" onClick={() => setMenuOpen(false)}>
+                <FaListAlt className="menu-icon" /> Active Ads
+              </Link>
+            </div>
+          )}
           {isLoggedIn ? (
             <div className="menu-item">
               <button onClick={() => { setMenuOpen(false); handleLogout(); }}>

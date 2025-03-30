@@ -55,6 +55,18 @@
   border: 2px solid #FFCACA; /* accent outline */
   border-radius: 10px;
   z-index: 250;
+  animation: fadeInMenu 0.3s ease; /* Added fade-in animation */
+}
+
+@keyframes fadeInMenu {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .menu-item {
