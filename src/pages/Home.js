@@ -1,38 +1,45 @@
 // src/pages/Home.js
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ProductCarousel from '../components/ProductCarousel';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FaUserPlus, FaUpload, FaShoppingCart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import axios from 'axios';
 import '../styles/Home.css';
+
+// Importing local images from the 'images' folder
+import textbooksImg from '../images/textbooks.jpg';
+import notesImg from '../images/notes.jpg';
+import communityImg from '../images/community.jpg';
 
 function Home() {
   const { isLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+  
+  // State to store ads fetched from the backend
+  const [ads, setAds] = useState([]);
 
-  const products = [
-    {
-      image: 'https://picsum.photos/seed/1/1200/500',
-      title: 'Product 1',
-      description: 'This is a great product for students.',
-    },
-    {
-      image: 'https://picsum.photos/seed/2/1200/500',
-      title: 'Product 2',
-      description: 'Find quality used books and notes here.',
-    },
-    {
-      image: 'https://picsum.photos/seed/3/1200/500',
-      title: 'Product 3',
-      description: 'Discover amazing deals on study materials.',
-    },
-    {
-      image: 'https://picsum.photos/seed/4/1200/500',
-      title: 'Product 4',
-      description: 'Quality products at affordable prices.',
-    },
-  ];
+  // Fetch ads from the backend on page load
+  useEffect(() => {
+    const fetchAds = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/ads');
+        setAds(res.data.ads);  // Store ads in state
+      } catch (error) {
+        console.error('Error fetching ads:', error);
+      }
+    };
+
+    fetchAds();
+  }, []);
+
+  // Prepare ads for the carousel, only take the first 4
+  const products = ads.slice(0, 4).map(ad => ({
+    image: ad.image,
+    title: ad.title,
+    description: ad.description,
+  }));
 
   const handleGetStarted = () => {
     if (isLoggedIn) {
@@ -98,26 +105,14 @@ function Home() {
           <Row className="justify-content-center">
             <Col xs={6} md={3}>
               <div className="category-card">
-                <img src="https://picsum.photos/seed/cat1/300/200" alt="Textbooks" />
+                <img src={textbooksImg} alt="Textbooks" className="category-img" />
                 <h5 className="mt-2">Textbooks</h5>
               </div>
             </Col>
             <Col xs={6} md={3}>
               <div className="category-card">
-                <img src="https://picsum.photos/seed/cat2/300/200" alt="Notes" />
+                <img src={notesImg} alt="Notes" className="category-img" />
                 <h5 className="mt-2">Notes</h5>
-              </div>
-            </Col>
-            <Col xs={6} md={3}>
-              <div className="category-card">
-                <img src="https://picsum.photos/seed/cat3/300/200" alt="Stationery" />
-                <h5 className="mt-2">Stationery</h5>
-              </div>
-            </Col>
-            <Col xs={6} md={3}>
-              <div className="category-card">
-                <img src="https://picsum.photos/seed/cat4/300/200" alt="Accessories" />
-                <h5 className="mt-2">Accessories</h5>
               </div>
             </Col>
           </Row>
@@ -135,7 +130,7 @@ function Home() {
             </Col>
             <Col md={6}>
               <img
-                src="https://picsum.photos/seed/community/600/400"
+                src={communityImg}
                 alt="Community"
                 className="img-fluid rounded"
               />

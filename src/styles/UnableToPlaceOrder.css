@@ -1,0 +1,54 @@
+/* src/styles/UnableToPlaceOrder.css */
+.unable-to-place-order-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
+    background-size: 400% 400%;
+    animation: unableToPlaceOrderGradient 15s ease infinite;
+    color: #251B37;
+  }
+  
+  @keyframes unableToPlaceOrderGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  .unable-to-place-order-container {
+    text-align: center;
+    background-color: #FFECEF;
+    border: 2px solid #372948;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+  }
+  
+  .unable-to-place-order-container h1 {
+    color: #372948;
+    font-size: 2.5rem;
+  }
+  
+  .unable-to-place-order-container p {
+    font-size: 1.2rem;
+    color: #251B37;
+    margin-bottom: 30px;
+  }
+  
+  .unable-to-place-order-container .btn {
+    background-color: #372948;
+    color: #FFECEF;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .unable-to-place-order-container .btn:hover {
+    background-color: #251B37;
+    color: #EAFAEA;
+  }  

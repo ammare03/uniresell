@@ -1,7 +1,7 @@
 // src/components/Header.js
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaHome, FaShoppingCart, FaSignInAlt, FaUserPlus, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaShoppingCart, FaListAlt, FaSignInAlt, FaUserPlus, FaSignOutAlt } from 'react-icons/fa';
 import { AuthContext } from '../context/AuthContext';
 import '../styles/Header.css';
 
@@ -24,7 +24,6 @@ function Header() {
           <div className="bar"></div>
         </div>
         <div className="site-title">UniResell</div>
-        {/* Add Cart link/icon on the right side */}
         <div className="nav-extra">
           <Link to="/cart" className="cart-link">
             <FaShoppingCart size={24} />
@@ -41,6 +40,11 @@ function Header() {
           <div className="menu-item">
             <Link to="/sell" onClick={() => setMenuOpen(false)}>
               <FaShoppingCart className="menu-icon" /> Sell
+            </Link>
+          </div>
+          <div className="menu-item">
+            <Link to="/active-ads" onClick={() => setMenuOpen(false)}>
+              <FaListAlt className="menu-icon" /> Active Ads
             </Link>
           </div>
           {isLoggedIn ? (

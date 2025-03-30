@@ -1,15 +1,13 @@
 // src/pages/Sell.js
-import React, { useState, useEffect, useContext } from 'react';
-import { Container, Form, Button, Alert, Card, Row, Col } from 'react-bootstrap';
+import React, { useState, useContext } from 'react';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
-import { CartContext } from '../context/CartContext'; // import CartContext
 import { useNavigate } from 'react-router-dom';
 import '../styles/Sell.css';
 
 function Sell() {
   const { isLoggedIn, user } = useContext(AuthContext);
-  const { addToCart } = useContext(CartContext); // use addToCart from CartContext
   const navigate = useNavigate();
   const [adData, setAdData] = useState({
     title: '',
@@ -17,22 +15,8 @@ function Sell() {
     price: '',
     image: '' // base64 string
   });
-  const [ads, setAds] = useState([]);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    fetchAds();
-  }, []);
-
-  const fetchAds = async () => {
-    try {
-      const res = await axios.get('http://localhost:5000/api/ads');
-      setAds(res.data.ads);
-    } catch (err) {
-      console.error('Error fetching ads:', err);
-    }
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,21 +46,11 @@ function Sell() {
       const payload = { ...adData, postedBy: user.abcId };
       const res = await axios.post('http://localhost:5000/api/ads', payload);
       setMessage(res.data.message);
-      setAds([res.data.ad, ...ads]);
       setAdData({ title: '', description: '', price: '', image: '' });
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || 'Failed to post ad.');
     }
-  };
-
-  const handleAddToCart = (ad) => {
-    addToCart(ad);
-    alert(`Ad "${ad.title}" added to cart!`);
-  };
-
-  const handleViewProduct = (adId) => {
-    navigate(`/ad/${adId}`);
   };
 
   return (
@@ -110,7 +84,7 @@ function Sell() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formPrice">
-            <Form.Label>Price ($)</Form.Label>
+            <Form.Label>Price (₹)</Form.Label>
             <Form.Control
               type="number"
               name="price"
@@ -134,29 +108,6 @@ function Sell() {
             Post Ad
           </Button>
         </Form>
-
-        <h3 className="mt-5">Active Ads</h3>
-        {ads.length === 0 && <p>No ads available.</p>}
-        <Row>
-          {ads.map((ad) => (
-            <Col key={ad._id} xs={12} md={6} className="mb-4">
-              <Card className="ad-card">
-                <Card.Img variant="top" src={ad.image} style={{ height: '200px', objectFit: 'cover' }} />
-                <Card.Body>
-                  <Card.Title>{ad.title}</Card.Title>
-                  <Card.Text>{ad.description}</Card.Text>
-                  <Card.Text><strong>${ad.price}</strong></Card.Text>
-                  <Button variant="outline-dark" onClick={() => handleAddToCart(ad)} className="me-2">
-                    Add to Cart
-                  </Button>
-                  <Button variant="dark" onClick={() => handleViewProduct(ad._id)}>
-                    View Product
-                  </Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
       </Container>
     </div>
   );

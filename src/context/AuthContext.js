@@ -5,16 +5,25 @@ import axios from 'axios';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
+  // Initialize state from localStorage
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem('isLoggedIn') === 'true';
+  });
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
-  // Login function: calls /api/login endpoint
   const login = async (credentials) => {
     try {
       const res = await axios.post('http://localhost:5000/api/login', credentials);
       if (res.data.message === 'Login successful.') {
+        const userData = { abcId: credentials.abcId };
         setIsLoggedIn(true);
-        setUser({ abcId: credentials.abcId });
+        setUser(userData);
+        // Persist state in localStorage
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('user', JSON.stringify(userData));
       }
       return res.data.message;
     } catch (err) {
@@ -22,7 +31,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Signup function: calls /api/signup endpoint
   const signup = async (signupData) => {
     try {
       const res = await axios.post('http://localhost:5000/api/signup', signupData);
@@ -32,7 +40,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // OTP verification function: calls /api/verify-otp endpoint
   const verifyOtp = async (otpData) => {
     try {
       const res = await axios.post('http://localhost:5000/api/verify-otp', otpData);
@@ -42,10 +49,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout function: simply clear state (for now)
   const logout = () => {
     setIsLoggedIn(false);
     setUser(null);
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('user');
   };
 
   return (
