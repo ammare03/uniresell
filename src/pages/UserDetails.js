@@ -39,24 +39,17 @@ function UserDetails() {
     fetchUserAds();
   }, [abcId]);
 
-  const handleRatingSubmit = (e) => {
+  const handleRatingSubmit = async (e) => {
     e.preventDefault();
-    if (!userDetails) return;
-
-    const currentTotal = (userDetails.rating || 0) * (userDetails.ratingCount || 0);
-    const newTotal = currentTotal + newRating;
-    const newCount = (userDetails.ratingCount || 0) + 1;
-    const updatedRating = newTotal / newCount;
-
-    // Update local state. In production, you'd PATCH the backend
-    setUserDetails({
-      ...userDetails,
-      rating: updatedRating,
-      ratingCount: newCount,
-    });
-
-    setMessage(`Thank you! The new average rating is ${updatedRating.toFixed(1)} / 5.`);
-    setNewRating(0);
+    try {
+      // Call the new backend endpoint to update rating for the user
+      const res = await axios.post(`http://localhost:5000/api/users/${abcId}/rate`, { newRating });
+      setUserDetails(res.data.user);
+      setMessage(`Thank you! The new average rating is ${res.data.user.rating.toFixed(1)} / 5.`);
+      setNewRating(0);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Error updating rating.');
+    }
   };
 
   if (error) {

@@ -4,16 +4,20 @@ import { Container, Row, Col, Card, Button, Spinner, Alert } from 'react-bootstr
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { CartContext } from '../context/CartContext';
+import { AuthContext } from '../context/AuthContext';
 import '../styles/AdDetail.css';
 
 function AdDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+  const { addToCart } = useContext(CartContext);
   const [ad, setAd] = useState(null);
+  const [sellerDetails, setSellerDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const { addToCart } = useContext(CartContext);
 
+  // Fetch ad details
   useEffect(() => {
     const fetchAd = async () => {
       try {
@@ -28,6 +32,21 @@ function AdDetail() {
     fetchAd();
   }, [id]);
 
+  // After ad is loaded, fetch seller details based on ad.postedBy
+  useEffect(() => {
+    if (ad && ad.postedBy) {
+      const fetchSeller = async () => {
+        try {
+          const res = await axios.get(`http://localhost:5000/api/users/${ad.postedBy}`);
+          setSellerDetails(res.data.user);
+        } catch (err) {
+          console.error('Error fetching seller details:', err);
+        }
+      };
+      fetchSeller();
+    }
+  }, [ad]);
+
   const handleAddToCart = () => {
     addToCart(ad);
     alert(`Ad "${ad.title}" added to cart!`);
@@ -41,7 +60,7 @@ function AdDetail() {
       });
 
       const options = {
-        key: 'rzp_test_l3iiBr281IE9vB', // Your Razorpay key
+        key: 'rzp_test_l3iiBr281IE9vB', // Your Razorpay key (test key)
         amount: res.data.amount,
         currency: 'INR',
         order_id: res.data.order_id,
@@ -69,8 +88,11 @@ function AdDetail() {
   };
 
   const handleViewSellerProfile = () => {
-    // Navigate to the UserDetails page for the seller
-    navigate(`/user/${ad.postedBy}`);
+    if (user && ad && user.abcId === ad.postedBy) {
+      navigate('/profile');
+    } else {
+      navigate(`/user/${ad.postedBy}`);
+    }
   };
 
   if (loading) {
@@ -111,7 +133,7 @@ function AdDetail() {
                   <strong>Seller:</strong> {ad.postedBy}
                 </p>
                 <p>
-                  <strong>Rating:</strong> {ad.sellerRating ? ad.sellerRating.toFixed(1) : 'N/A'} / 5
+                  <strong>Rating:</strong> {sellerDetails && sellerDetails.rating != null ? sellerDetails.rating.toFixed(1) : 'N/A'} / 5
                 </p>
                 <Button variant="outline-secondary" onClick={handleViewSellerProfile} className="mt-2">
                   View Seller Profile
