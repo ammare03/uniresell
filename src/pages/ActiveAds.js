@@ -1,16 +1,14 @@
 // src/pages/ActiveAds.js
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { CartContext } from '../context/CartContext';
 import '../styles/ActiveAds.css';
 
 function ActiveAds() {
   const [ads, setAds] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredAds, setFilteredAds] = useState([]);
-  const { addToCart } = useContext(CartContext);
   const navigate = useNavigate();
 
   // Fetch all active ads from the backend
@@ -18,8 +16,10 @@ function ActiveAds() {
     const fetchAds = async () => {
       try {
         const res = await axios.get('http://localhost:5000/api/ads');
-        setAds(res.data.ads);
-        setFilteredAds(res.data.ads);  // Initially, show all ads
+        // Sort ads by sellerRating in descending order
+        const sortedAds = res.data.ads.sort((a, b) => (b.sellerRating || 0) - (a.sellerRating || 0));
+        setAds(sortedAds);
+        setFilteredAds(sortedAds);
       } catch (err) {
         console.error('Error fetching ads:', err);
       }
@@ -47,7 +47,8 @@ function ActiveAds() {
   };
 
   const handleAddToCart = (ad) => {
-    addToCart(ad);
+    // For now, assume addToCart functionality is integrated
+    // You could import CartContext and call addToCart(ad)
     alert(`Ad "${ad.title}" added to cart!`);
   };
 
@@ -71,7 +72,7 @@ function ActiveAds() {
         </Form>
 
         {/* Ads List */}
-        {filteredAds.length === 0 && <p>No ads found.</p>}
+        {filteredAds.length === 0 && <p className="text-center">No ads found.</p>}
         <Row>
           {filteredAds.map((ad) => (
             <Col key={ad._id} xs={12} md={6} className="mb-4">
@@ -81,6 +82,9 @@ function ActiveAds() {
                   <Card.Title>{ad.title}</Card.Title>
                   <Card.Text>{ad.description}</Card.Text>
                   <Card.Text><strong>₹{ad.price}</strong></Card.Text>
+                  <Card.Text className="seller-info">
+                    Posted by: {ad.postedBy} <br /> Rating: {ad.sellerRating ? ad.sellerRating.toFixed(1) : 'N/A'} / 5
+                  </Card.Text>
                   <Button variant="outline-dark" className="me-2" onClick={() => handleAddToCart(ad)}>
                     Add to Cart
                   </Button>

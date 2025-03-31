@@ -35,20 +35,16 @@ function AdDetail() {
 
   const handleBuyNow = async () => {
     try {
-      const amount = parseFloat(ad.price);
-      if (isNaN(amount)) {
-        throw new Error("Invalid price value");
-      }
-      const res = await axios.post('http://localhost:5000/api/create-order', { 
-        amount: amount, 
-        adId: ad._id 
+      const res = await axios.post('http://localhost:5000/api/create-order', {
+        amount: ad.price,
+        adId: ad._id,
       });
 
       const options = {
-        key: 'rzp_test_l3iiBr281IE9vB', // Your Razorpay key (test key)
-        amount: res.data.amount,       // Amount in rupees returned from backend
+        key: 'rzp_test_l3iiBr281IE9vB', // Your Razorpay key
+        amount: res.data.amount,
         currency: 'INR',
-        order_id: res.data.order_id,   // Order ID from Razorpay
+        order_id: res.data.order_id,
         name: 'UniResell',
         description: 'Purchase of a textbook/note',
         handler: function (response) {
@@ -64,13 +60,17 @@ function AdDetail() {
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (err) {
-      console.error('Error in handleBuyNow:', err);
       navigate('/unable-to-place-order', { replace: true });
     }
   };
 
   const handleBack = () => {
-    navigate(-1); // Go back to previous page
+    navigate(-1);
+  };
+
+  const handleViewSellerProfile = () => {
+    // Navigate to the UserDetails page for the seller
+    navigate(`/user/${ad.postedBy}`);
   };
 
   if (loading) {
@@ -98,11 +98,7 @@ function AdDetail() {
         <Row>
           <Col md={6}>
             <Card className="ad-detail-card">
-              <Card.Img 
-                variant="top" 
-                src={ad.image} 
-                className="ad-image" 
-              />
+              <Card.Img variant="top" src={ad.image} className="ad-image" />
             </Card>
           </Col>
           <Col md={6}>
@@ -110,6 +106,17 @@ function AdDetail() {
               <h2>{ad.title}</h2>
               <p>{ad.description}</p>
               <h4 className="price">₹{ad.price}</h4>
+              <div className="seller-info">
+                <p>
+                  <strong>Seller:</strong> {ad.postedBy}
+                </p>
+                <p>
+                  <strong>Rating:</strong> {ad.sellerRating ? ad.sellerRating.toFixed(1) : 'N/A'} / 5
+                </p>
+                <Button variant="outline-secondary" onClick={handleViewSellerProfile} className="mt-2">
+                  View Seller Profile
+                </Button>
+              </div>
               <div className="ad-detail-buttons">
                 <Button variant="outline-light" onClick={handleAddToCart} className="me-2">
                   Add to Cart

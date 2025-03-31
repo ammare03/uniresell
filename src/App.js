@@ -13,6 +13,8 @@ import Cart from './pages/Cart';
 import ActiveAds from './pages/ActiveAds';
 import OrderConfirmed from './pages/OrderConfirmed'; 
 import UnableToPlaceOrder from './pages/UnableToPlaceOrder'; 
+import UserProfile from './pages/UserProfile';
+import UserDetails from './pages/UserDetails';
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
         <Route path="/order-confirmed" element={<OrderConfirmed />} />
         <Route path="/unable-to-place-order" element={<UnableToPlaceOrder />} />
         <Route path="/active-ads" element={<ActiveAds />} />
+        <Route path="/profile" element={<UserProfile />} />
+        <Route path="/user/:abcId" element={<UserDetails />} />
       </Routes>
       <Footer />
     </>

@@ -60,6 +60,16 @@
   color: #372948;
 }
 
+.seller-info {
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #372948;
+}
+
+.seller-info p {
+  margin: 4px 0;
+}
+
 .ad-detail-buttons {
   margin-top: 30px;
 }
