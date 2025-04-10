@@ -57,6 +57,7 @@ function AdDetail() {
       const res = await axios.post('http://localhost:5000/api/create-order', {
         amount: ad.price,
         adId: ad._id,
+        buyerId: user.abcId
       });
 
       const options = {
@@ -67,11 +68,27 @@ function AdDetail() {
         name: 'UniResell',
         description: 'Purchase of a textbook/note',
         handler: function (response) {
-          navigate('/order-confirmed', { replace: true });
+          // Send payment verification to backend
+          axios.post('http://localhost:5000/api/verify-payment', {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            adId: ad._id,
+            buyerId: user.abcId
+          }).then((res) => {
+            if (res.data.status === 'success') {
+              navigate('/order-confirmed', { replace: true });
+            } else {
+              navigate('/unable-to-place-order', { replace: true });
+            }
+          }).catch((error) => {
+            console.error('Payment verification error:', error);
+            navigate('/unable-to-place-order', { replace: true });
+          });
         },
         prefill: {
-          name: 'John Doe',
-          email: 'johndoe@example.com',
+          name: user ? user.abcId : 'John Doe',
+          email: user ? user.email : 'johndoe@example.com',
           contact: '9123456789',
         },
       };
@@ -79,6 +96,7 @@ function AdDetail() {
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (err) {
+      console.error('Error initiating payment:', err);
       navigate('/unable-to-place-order', { replace: true });
     }
   };

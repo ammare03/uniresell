@@ -1,7 +1,8 @@
 // src/pages/ActiveAds.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { CartContext } from '../context/CartContext';
 import axios from 'axios';
 import '../styles/ActiveAds.css';
 
@@ -10,14 +11,16 @@ function ActiveAds() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredAds, setFilteredAds] = useState([]);
   const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext);
 
   // Fetch all active ads from the backend
   useEffect(() => {
     const fetchAds = async () => {
       try {
         const res = await axios.get('http://localhost:5000/api/ads');
-        // Sort ads by sellerRating in descending order
-        const sortedAds = res.data.ads.sort((a, b) => (b.sellerRating || 0) - (a.sellerRating || 0));
+        // Filter out sold ads and sort by sellerRating
+        const activeAds = res.data.ads.filter(ad => !ad.sold);
+        const sortedAds = activeAds.sort((a, b) => (b.sellerRating || 0) - (a.sellerRating || 0));
         setAds(sortedAds);
         setFilteredAds(sortedAds);
       } catch (err) {
@@ -47,8 +50,7 @@ function ActiveAds() {
   };
 
   const handleAddToCart = (ad) => {
-    // For now, assume addToCart functionality is integrated
-    // You could import CartContext and call addToCart(ad)
+    addToCart(ad);
     alert(`Ad "${ad.title}" added to cart!`);
   };
 

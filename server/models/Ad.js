@@ -7,7 +7,9 @@ const AdSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   image: { type: String, required: true },
   postedBy: { type: String, required: true }, // e.g., the ABC ID of the user
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  sold: { type: Boolean, default: false },
+  soldTo: { type: String } // Store the buyer's ID when sold
 });
 
 module.exports = mongoose.model('Ad', AdSchema);

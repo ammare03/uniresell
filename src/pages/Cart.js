@@ -2,11 +2,13 @@
 import React, { useContext } from 'react';
 import { Container, Row, Col, Button, ListGroup, Alert } from 'react-bootstrap';
 import { CartContext } from '../context/CartContext';
+import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
 import '../styles/Cart.css';
 
 function Cart() {
   const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
 
   // Calculate total price
   const totalAmount = cartItems.reduce((total, item) => total + item.price, 0);
@@ -17,7 +19,11 @@ function Cart() {
 
   const handlePayment = async () => {
     try {
-      const res = await axios.post('http://localhost:5000/api/create-order', { amount: totalAmount });
+      const res = await axios.post('http://localhost:5000/api/create-order', { 
+        amount: totalAmount,
+        adId: cartItems[0]._id, // Assuming single item purchase for now
+        buyerId: user.abcId // Get from AuthContext
+      });
       const options = {
         key: 'rzp_test_l3iiBr281IE9vB', // Replace with your Razorpay key
         amount: res.data.amount,       // Total amount in rupees returned from backend
@@ -26,7 +32,23 @@ function Cart() {
         name: 'UniResell',
         description: 'Purchase of items in cart',
         handler: function (response) {
-          window.location.href = '/order-confirmed';
+          // Send payment verification to backend
+          axios.post('http://localhost:5000/api/verify-payment', {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            adId: cartItems[0]._id,
+            buyerId: user.abcId
+          }).then((res) => {
+            if (res.data.status === 'success') {
+              window.location.href = '/order-confirmed';
+            } else {
+              window.location.href = '/unable-to-place-order';
+            }
+          }).catch((error) => {
+            console.error('Payment verification error:', error);
+            window.location.href = '/unable-to-place-order';
+          });
         },
         prefill: {
           name: 'John Doe',

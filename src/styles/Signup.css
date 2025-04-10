@@ -4,15 +4,10 @@
 .signup-page {
   position: relative;
   min-height: 100vh;
-  background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
-  background-size: 400% 400%;
-  animation: signupGradient 15s ease infinite;
-}
-
-@keyframes signupGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  /* Use fixed background image instead of gradient */
+  background: url('../images/website_background_intense_top.png') no-repeat center center fixed;
+  background-size: auto;
+  /* No animation */
 }
 
 /* 2) Wave Shapes */

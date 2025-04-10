@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
   otp: { type: String },
   otpExpiration: { type: Date },
   // New fields for rating system:
-  rating: { type: Number, default: 0 }, // Average rating (0 to 5)
+  rating: { type: Number, default: 5 }, // Default 5-star rating for new users
   ratingCount: { type: Number, default: 0 } // Number of ratings received
 });
 

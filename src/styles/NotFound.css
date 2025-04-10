@@ -1,7 +1,9 @@
+/* src/styles/NotFound.css */
 .notfound {
   min-height: 100vh;
   padding: 20px;
-  background: #F5F5F5;
+  background: url('../images/website_background_intense_top.png') no-repeat center center fixed;
+  background-size: auto;
   color: #4B164C;
   text-align: center;
   display: flex;

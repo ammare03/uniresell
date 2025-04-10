@@ -2,65 +2,59 @@
 
 /* Remove default body margins for full-width background */
 html, body {
-    margin: 0;
-    padding: 0;
-  }
-  
-  .user-profile-page {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;          
-    justify-content: center;
-    background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
-    background-size: 400% 400%;
-    animation: profileGradient 18s ease infinite;
-  }
-  
-  @keyframes profileGradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  /* Center the main content in a narrower container */
-  .profile-content {
-    width: 90%;
-    max-width: 1200px;
-    margin: 40px auto;
-    color: #251B37;
-  }
-  
-  .section-title {
-    color: #372948;
-  }
-  
-  .profile-card {
-    background-color: #FFECEF;
-    border: 2px solid #372948;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  .profile-card .card-title {
-    font-size: 1.8rem;
-    color: #372948;
-    margin-bottom: 10px;
-  }
-  
-  .email-text {
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-  }
-  
-  .ad-card {
-    background-color: #FFECEF;
-    border: 2px solid #372948;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  .ad-image {
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px 8px 0 0;
-  }  
+  margin: 0;
+  padding: 0;
+}
+
+.user-profile-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  background: url('../images/website_background_intense_top.png') no-repeat center center fixed;
+  background-size: auto;
+  /* Removed gradient animation */
+}
+
+/* Center the main content in a narrower container */
+.profile-content {
+  width: 90%;
+  max-width: 1200px;
+  margin: 40px auto;
+  color: #251B37;
+}
+
+.section-title {
+  color: #372948;
+}
+
+.profile-card {
+  background-color: #FFECEF;
+  border: 2px solid #372948;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.profile-card .card-title {
+  font-size: 1.8rem;
+  color: #372948;
+  margin-bottom: 10px;
+}
+
+.email-text {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.ad-card {
+  background-color: #FFECEF;
+  border: 2px solid #372948;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.ad-image {
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+}

@@ -12,15 +12,9 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
-  background-size: 400% 400%;
-  animation: userDetailsGradient 18s ease infinite;
-}
-
-@keyframes userDetailsGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  background: url('../images/website_background_intense_top.png') no-repeat center center fixed;
+  background-size: auto;
+  /* Removed gradient animation */
 }
 
 .details-content {
@@ -54,13 +48,16 @@ html, body {
 }
 
 .rating-form {
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
 }
 
 .star-rating {
   display: flex;
-  gap: 5px;
-  margin-bottom: 10px;
+  justify-content: center;
+  margin: 10px 0;
 }
 
 .ad-card {

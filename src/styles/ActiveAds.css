@@ -1,58 +1,51 @@
 /* src/styles/ActiveAds.css */
 .active-ads-page {
-    min-height: 100vh;
-    padding: 20px;
-    background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
-    background-size: 400% 400%;
-    animation: gradientAnimation 18s ease infinite;
-    color: inherit; /* Let the animation control the text color */
-  }
-  
-  /* Background Animation */
-  @keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  /* Search Bar */
-  .form-control {
-    width: 50%;
-    margin: 0 auto;
-    margin-bottom: 30px;
-    padding: 12px;
-    background-color: #372948;
-    color: #FFECEF;
-    border: none;
-    border-radius: 8px;
-  }
-  
-  /* Ads Cards */
-  .ad-card {
-    text-align: center;
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 2px solid #FFCACA;
-    border-radius: 10px;
-    background-color: #251B37;
-    transition: transform 0.3s ease;
-  }
-  
-  .ad-card:hover {
-    transform: scale(1.05);
-  }
-  
-  .ad-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-  
-  .ad-card h5 {
-    color: #FFCACA;
-  }
-  
-  .ad-card .btn {
-    margin-top: 10px;
-  }  
+  min-height: 100vh;
+  padding: 20px;
+  background: url('../images/website_background_intense_top.png') no-repeat center center fixed;
+  background-size: auto;
+  color: inherit; /* Let the components control their text color */
+}
+
+/* Removed gradientAnimation and keyframes */
+
+/* Search Bar */
+.form-control {
+  width: 50%;
+  margin: 0 auto 30px auto;
+  padding: 12px;
+  background-color: #372948;
+  color: #FFECEF;
+  border: none;
+  border-radius: 8px;
+}
+
+/* Ads Cards */
+.ad-card {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 2px solid #FFCACA;
+  border-radius: 10px;
+  background-color: #251B37;
+  transition: transform 0.3s ease;
+}
+
+.ad-card:hover {
+  transform: scale(1.05);
+}
+
+.ad-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.ad-card h5 {
+  color: #FFCACA;
+}
+
+.ad-card .btn {
+  margin-top: 10px;
+}

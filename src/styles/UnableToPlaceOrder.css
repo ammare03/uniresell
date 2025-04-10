@@ -14,15 +14,9 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
-  background-size: 400% 400%;
-  animation: unableToPlaceOrderGradient 18s ease infinite;
-}
-
-@keyframes unableToPlaceOrderGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  /* Use the fixed background image instead of a gradient */
+  background: url('../images/website_background_intense_top.png') no-repeat center center fixed;
+  background-size: auto;
 }
 
 .unable-to-place-order-container {

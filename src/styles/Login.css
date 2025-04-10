@@ -1,18 +1,13 @@
 /* src/styles/Login.css */
 
-/* 1) Page Container with Animated Gradient */
+/* 1) Page Container with Fixed Background Image */
 .login-page {
   position: relative;
   min-height: 100vh;
-  background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
-  background-size: 400% 400%;
-  animation: loginGradient 15s ease infinite;
-}
-
-@keyframes loginGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  /* Use the fixed background image */
+  background: url('../images/website_background_intense_top.png') no-repeat center center fixed;
+  background-size: auto;
+  color: inherit; /* Let components control text color */
 }
 
 /* 2) Wave Shapes */

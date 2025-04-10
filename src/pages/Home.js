@@ -25,7 +25,9 @@ function Home() {
     const fetchAds = async () => {
       try {
         const res = await axios.get('http://localhost:5000/api/ads');
-        setAds(res.data.ads);  // Store ads in state
+        // Filter out sold products
+        const activeAds = res.data.ads.filter(ad => !ad.sold);
+        setAds(activeAds);  // Store active ads in state
       } catch (error) {
         console.error('Error fetching ads:', error);
       }
@@ -34,8 +36,8 @@ function Home() {
     fetchAds();
   }, []);
 
-  // Prepare ads for the carousel, only take the first 4
-  const products = ads.slice(0, 4).map(ad => ({
+  // Prepare ads for the carousel, only take the first 3 active products
+  const products = ads.slice(0, 3).map(ad => ({
     image: ad.image,
     title: ad.title,
     description: ad.description,

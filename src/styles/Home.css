@@ -2,27 +2,15 @@
 .home {
   min-height: 100vh;
   padding: 20px;
-  background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
-  background-size: 400% 400%;
-  animation: gradientAnimation 18s ease infinite, textColorAnimation 18s ease infinite;
-  color: inherit; /* Let the animation control the text color */
+  /* Set the background image from the images folder */
+  background: url('../images/website_background_intense_top.png') no-repeat center center fixed;
+  /* background-size set to auto so the image is not stretched */
+  background-size: auto;
+  /* Remove any animation since we are not using the gradient */
+  color: inherit; /* Let your text inherit color as needed */
 }
 
-/* Background Animation */
-@keyframes gradientAnimation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Optional: Text Color Animation (adjust as needed) */
-@keyframes textColorAnimation {
-  0%   { color: #FFECEF; }
-  25%  { color: #FFECEF; }
-  50%  { color: #251B37; }
-  75%  { color: #251B37; }
-  100% { color: #251B37; }
-}
+/* Removed gradientAnimation and textColorAnimation keyframes */
 
 /* Hero Section */
 .hero h1 {

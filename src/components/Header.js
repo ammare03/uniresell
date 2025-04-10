@@ -1,12 +1,12 @@
 // src/components/Header.js
 import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaHome, FaShoppingCart, FaListAlt, FaSignInAlt, FaUserPlus, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaShoppingCart, FaListAlt, FaSignInAlt, FaUserPlus, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { AuthContext } from '../context/AuthContext';
 import '../styles/Header.css';
 
 function Header() {
-  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { isLoggedIn, logout, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -49,6 +49,13 @@ function Header() {
               <FaHome className="menu-icon" /> Home
             </Link>
           </div>
+          {isLoggedIn && (
+            <div className="menu-item">
+              <Link to="/profile" onClick={() => setMenuOpen(false)}>
+                <FaUser className="menu-icon" /> Profile
+              </Link>
+            </div>
+          )}
           <div className="menu-item">
             <Link to="/sell" onClick={() => setMenuOpen(false)}>
               <FaShoppingCart className="menu-icon" /> Sell

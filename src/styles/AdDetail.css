@@ -2,19 +2,15 @@
 .ad-detail-page {
   min-height: 100vh;
   padding: 40px 20px;
-  background: linear-gradient(270deg, #251B37, #372948, #FFCACA, #FFECEF);
-  background-size: 400% 400%;
-  animation: adDetailGradient 15s ease infinite;
+  /* Use the background image from the images folder */
+  background: url('../images/website_background_intense_top.png') no-repeat center center fixed;
+  background-size: auto;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-@keyframes adDetailGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+/* Removed gradientAnimation keyframes and animation */
 
 .ad-detail-container {
   max-width: 900px;
