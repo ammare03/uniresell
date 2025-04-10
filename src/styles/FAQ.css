@@ -1,0 +1,126 @@
+.faq-page {
+  padding: 4rem 0;
+  background-color: #1a1a1a;
+  color: #fff;
+  min-height: 100vh;
+}
+
+.faq-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.faq-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.faq-header .lead {
+  color: #ccc;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.faq-header .lead a {
+  color: #6c63ff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.faq-header .lead a:hover {
+  color: #8b85ff;
+}
+
+.faq-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.accordion {
+  --bs-accordion-bg: #2a2a2a;
+  --bs-accordion-border-color: #444;
+  --bs-accordion-btn-bg: #2a2a2a;
+  --bs-accordion-btn-color: #fff;
+  --bs-accordion-active-bg: #333;
+  --bs-accordion-active-color: #fff;
+  --bs-accordion-btn-focus-border-color: #6c63ff;
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, 0.25);
+}
+
+.accordion-item {
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.accordion-button {
+  background-color: #2a2a2a;
+  color: #fff;
+  padding: 1.25rem;
+  font-weight: 500;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #333;
+  color: #fff;
+}
+
+.accordion-button:focus {
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, 0.25);
+}
+
+.accordion-button::after {
+  filter: invert(1) grayscale(100%);
+}
+
+.accordion-body {
+  background-color: #2a2a2a;
+  color: #ccc;
+  padding: 1.25rem;
+  line-height: 1.6;
+}
+
+.faq-footer {
+  text-align: center;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid #444;
+}
+
+.faq-footer h3 {
+  color: #fff;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.faq-footer p {
+  color: #ccc;
+}
+
+.faq-footer a {
+  color: #6c63ff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.faq-footer a:hover {
+  color: #8b85ff;
+}
+
+@media (max-width: 768px) {
+  .faq-page {
+    padding: 2rem 0;
+  }
+
+  .faq-header h1 {
+    font-size: 2rem;
+  }
+
+  .accordion-button {
+    padding: 1rem;
+  }
+} 
