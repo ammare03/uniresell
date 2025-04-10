@@ -1,6 +1,8 @@
 /* src/styles/AdDetail.css */
 .ad-detail-page {
+  background-color: #1a1a1a;
   min-height: 100vh;
+  color: #fff;
   padding: 40px 20px;
   /* Use the background image from the images folder */
   background: url('../images/website_background_intense_top.png') no-repeat center center fixed;
@@ -13,27 +15,31 @@
 /* Removed gradientAnimation keyframes and animation */
 
 .ad-detail-container {
+  padding: 2rem 0;
   max-width: 900px;
   width: 100%;
 }
 
 .ad-detail-card {
-  background: #FFECEF;
-  border: 2px solid #372948;
+  background-color: #2a2a2a;
+  border: none;
   border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
   overflow: hidden;
+  position: relative;
+  margin-bottom: 2rem;
 }
 
 .ad-image {
   width: 100%;
-  max-height: 400px;
-  object-fit: cover;
+  height: 400px;
+  object-fit: contain;
+  background-color: #1a1a1a;
+  padding: 1rem;
   border-bottom: 4px solid #372948;
 }
 
 .ad-detail-content {
-  padding: 30px;
+  padding: 1rem;
   color: #251B37;
 }
 
@@ -50,47 +56,115 @@
 }
 
 .price {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
-  margin-top: 10px;
-  color: #372948;
+  color: #fff;
+  margin: 1.5rem 0;
 }
 
-.seller-info {
-  margin-top: 20px;
-  font-size: 1rem;
-  color: #372948;
+.seller-card {
+  background-color: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.seller-card h5 {
+  color: #fff;
+  margin-bottom: 1rem;
 }
 
 .seller-info p {
-  margin: 4px 0;
+  margin-bottom: 0.5rem;
+  color: #ccc;
+}
+
+.rating {
+  color: #ffd700;
 }
 
 .ad-detail-buttons {
-  margin-top: 30px;
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
 }
 
 .ad-detail-buttons button {
-  margin-right: 15px;
-  padding: 10px 20px;
+  flex: 1;
+  padding: 0.75rem;
   font-size: 1rem;
-  border-radius: 6px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.ad-detail-buttons button:hover {
-  transform: scale(1.03);
 }
 
 .back-btn {
-  background-color: transparent;
-  border: 2px solid #FFECEF;
-  color: #FFECEF;
-  border-radius: 6px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
 }
 
 .back-btn:hover {
-  background-color: #FFECEF;
-  color: #251B37;
+  transform: translateX(-5px);
+}
+
+.share-alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.share-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.share-button:hover {
+  transform: scale(1.1);
+  background-color: #fff;
+}
+
+.category-badge {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  background-color: #4a4a4a;
+}
+
+.posted-date {
+  color: #999;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+}
+
+.description-section {
+  margin: 2rem 0;
+  padding: 1rem;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+}
+
+.description-section h5 {
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

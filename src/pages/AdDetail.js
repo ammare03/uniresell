@@ -1,10 +1,12 @@
 // src/pages/AdDetail.js
 import React, { useState, useEffect, useContext } from 'react';
-import { Container, Row, Col, Card, Button, Spinner, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Spinner, Alert, Badge } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
+import { FaShare, FaRegClock } from 'react-icons/fa';
+import SimilarAds from '../components/SimilarAds';
 import '../styles/AdDetail.css';
 
 function AdDetail() {
@@ -16,6 +18,7 @@ function AdDetail() {
   const [sellerDetails, setSellerDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [shareMessage, setShareMessage] = useState('');
 
   // Fetch ad details
   useEffect(() => {
@@ -49,7 +52,21 @@ function AdDetail() {
 
   const handleAddToCart = () => {
     addToCart(ad);
+    setShareMessage('');
     alert(`Ad "${ad.title}" added to cart!`);
+  };
+
+  const handleShare = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+      setShareMessage('Link copied to clipboard!');
+      setTimeout(() => setShareMessage(''), 3000);
+    });
+  };
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   const handleBuyNow = async () => {
@@ -205,28 +222,76 @@ function AdDetail() {
         <Button variant="outline-light" onClick={handleBack} className="mb-4 back-btn">
           &larr; Back
         </Button>
+
+        {shareMessage && (
+          <Alert variant="success" className="share-alert">
+            {shareMessage}
+          </Alert>
+        )}
+
         <Row>
           <Col md={6}>
             <Card className="ad-detail-card">
               <Card.Img variant="top" src={ad.image} className="ad-image" />
+              <Button 
+                variant="light" 
+                className="share-button" 
+                onClick={handleShare}
+                title="Share this ad"
+              >
+                <FaShare />
+              </Button>
             </Card>
           </Col>
           <Col md={6}>
             <div className="ad-detail-content">
-              <h2>{ad.title}</h2>
-              <p>{ad.description}</p>
-              <h4 className="price">₹{ad.price}</h4>
-              <div className="seller-info">
-                <p>
-                  <strong>Seller:</strong> {ad.postedBy}
-                </p>
-                <p>
-                  <strong>Rating:</strong> {sellerDetails && sellerDetails.rating != null ? sellerDetails.rating.toFixed(1) : 'N/A'} / 5
-                </p>
-                <Button variant="outline-secondary" onClick={handleViewSellerProfile} className="mt-2">
-                  View Seller Profile
-                </Button>
+              <div className="d-flex justify-content-between align-items-start">
+                <h2>{ad.title}</h2>
+                <Badge bg="secondary" className="category-badge">
+                  {ad.category}
+                </Badge>
               </div>
+              
+              <div className="posted-date">
+                <FaRegClock className="me-2" />
+                Posted on {formatDate(ad.createdAt)}
+              </div>
+
+              <div className="description-section">
+                <h5>Description</h5>
+                <p>{ad.description}</p>
+              </div>
+
+              <h4 className="price">₹{ad.price}</h4>
+
+              <Card className="seller-card">
+                <Card.Body>
+                  <h5>Seller Information</h5>
+                  <div className="seller-info">
+                    <p>
+                      <strong>Seller:</strong> {ad.postedBy}
+                    </p>
+                    <p>
+                      <strong>Rating:</strong> {sellerDetails && sellerDetails.rating != null ? (
+                        <span className="rating">
+                          {sellerDetails.rating.toFixed(1)} / 5
+                          <small className="text-muted ms-2">
+                            ({sellerDetails.ratingCount} ratings)
+                          </small>
+                        </span>
+                      ) : 'N/A'}
+                    </p>
+                    <Button 
+                      variant="outline-light" 
+                      onClick={handleViewSellerProfile} 
+                      className="mt-2"
+                    >
+                      View Seller Profile
+                    </Button>
+                  </div>
+                </Card.Body>
+              </Card>
+
               <div className="ad-detail-buttons">
                 {user && ad.postedBy === user.abcId ? (
                   <Alert variant="info" className="mb-2">This is your ad</Alert>
@@ -244,6 +309,9 @@ function AdDetail() {
             </div>
           </Col>
         </Row>
+
+        {/* Similar Ads Section */}
+        <SimilarAds currentAdId={id} category={ad.category} />
       </Container>
     </div>
   );
