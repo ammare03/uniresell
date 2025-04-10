@@ -3,11 +3,14 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const orderRoutes = require('./routes/orderRoutes');
-const paymentRoutes = require('./routes/paymentRoutes');
+
+// Import Routes
 const authRoutes = require('./routes/auth');
 const adsRoutes = require('./routes/ads');
-const userRoutes = require('./routes/userRoutes');
+const userRoutes = require('./routes/users');
+const orderRoutes = require('./routes/orders');
+const paymentRoutes = require('./routes/paymentRoutes');
+
 const app = express();
 
 // Middleware
@@ -22,19 +25,19 @@ mongoose.connect(process.env.MONGO_URI, {
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Import Routes
-app.use('/api', orderRoutes);
-app.use('/api', paymentRoutes);
-app.use('/api', authRoutes);
-app.use('/api', adsRoutes);
-app.use('/api', userRoutes);
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/ads', adsRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // Test route
 app.get('/', (req, res) => {
   res.send('Server is running.');
 });
 
-// Error handling middleware (optional but good practice)
+// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something went wrong!');

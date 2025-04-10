@@ -35,7 +35,7 @@ function Header() {
           <div className="bar"></div>
           <div className="bar"></div>
         </div>
-        <div className="site-title">UniResell</div>
+        <Link to="/" className="site-title" style={{ textDecoration: 'none', cursor: 'pointer' }}>UniResell</Link>
         <div className="nav-extra">
           <Link to="/cart" className="cart-link">
             <FaShoppingCart size={24} />

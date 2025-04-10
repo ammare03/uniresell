@@ -29,18 +29,26 @@ router.post('/users/:abcId/rate', async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found." });
     }
+
+    // Calculate new rating
+    const totalRatingPoints = (user.rating * user.ratingCount) + newRating;
+    const newRatingCount = user.ratingCount + 1;
+    const updatedRating = Number((totalRatingPoints / newRatingCount).toFixed(2));
     
-    // Calculate updated rating
-    const currentTotal = (user.rating || 0) * (user.ratingCount || 0);
-    const updatedCount = (user.ratingCount || 0) + 1;
-    const updatedRating = (currentTotal + newRating) / updatedCount;
-    
+    // Update user's rating and count
     user.rating = updatedRating;
-    user.ratingCount = updatedCount;
+    user.ratingCount = newRatingCount;
     
     await user.save();
     
-    res.json({ message: "Rating updated successfully.", user });
+    res.json({ 
+      message: "Rating updated successfully.", 
+      user: {
+        abcId: user.abcId,
+        rating: user.rating,
+        ratingCount: user.ratingCount
+      }
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error updating rating." });

@@ -41,6 +41,12 @@
   font-weight: bold;
   color: #FFECEF;
   margin-right: -30px;
+  transition: transform 0.3s ease;
+}
+
+.site-title:hover {
+  transform: scale(1.05);
+  color: #FFCACA;
 }
 
 /* Floating Menu Styles */

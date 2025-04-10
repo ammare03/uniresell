@@ -14,7 +14,6 @@ html, body {
   justify-content: center;
   background: url('../images/website_background_intense_top.png') no-repeat center center fixed;
   background-size: auto;
-  /* Removed gradient animation */
 }
 
 .details-content {
@@ -26,6 +25,8 @@ html, body {
 
 .section-title {
   color: #372948;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
 }
 
 .profile-card {
@@ -60,16 +61,106 @@ html, body {
   margin: 10px 0;
 }
 
-.ad-card {
+/* Profile Tabs */
+.profile-tabs {
+  border-bottom: 2px solid #372948;
+  margin-bottom: 2rem;
+}
+
+.profile-tabs .nav-link {
+  color: #372948;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.profile-tabs .nav-link:hover {
+  color: #251B37;
+  background-color: rgba(55, 41, 72, 0.1);
+}
+
+.profile-tabs .nav-link.active {
+  color: #FFECEF;
+  background-color: #372948;
+  border: none;
+}
+
+/* Cards */
+.ad-card,
+.history-card {
   background-color: #FFECEF;
   border: 2px solid #372948;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.ad-card:hover,
+.history-card:hover {
+  transform: translateY(-5px);
 }
 
 .ad-image {
   height: 200px;
   object-fit: cover;
   border-radius: 8px 8px 0 0;
+}
+
+/* History Cards */
+.history-card {
+  position: relative;
+}
+
+.history-card.purchased {
+  border-color: #4CAF50;
+}
+
+.history-card.purchased .card-body {
+  background-color: rgba(76, 175, 80, 0.05);
+}
+
+.history-card.sold {
+  position: relative;
+  opacity: 0.9;
+}
+
+.sold-overlay {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #372948;
+  color: #FFECEF;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  z-index: 1;
+  transform: rotate(10deg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.history-card.sold .ad-image {
+  filter: grayscale(30%);
+}
+
+.history-card.sold .card-body {
+  background-color: rgba(55, 41, 72, 0.05);
+}
+
+.text-muted {
+  color: #666 !important;
+  font-size: 0.9rem;
+}
+
+/* Alert Styling */
+.alert {
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.alert-info {
+  background-color: rgba(55, 41, 72, 0.1);
+  border-color: #372948;
+  color: #372948;
 }

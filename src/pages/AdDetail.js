@@ -53,51 +53,121 @@ function AdDetail() {
   };
 
   const handleBuyNow = async () => {
+    if (!user) {
+      setError('Please log in to make a purchase.');
+      return;
+    }
+
     try {
-      const res = await axios.post('http://localhost:5000/api/create-order', {
+      setError(''); // Clear any previous errors
+      
+      // Check if Razorpay is loaded
+      if (typeof window.Razorpay === 'undefined') {
+        console.error('Razorpay not loaded');
+        setError('Payment system is not ready. Please refresh the page and try again.');
+        return;
+      }
+
+      // Create order
+      console.log('Creating order with:', {
         amount: ad.price,
         adId: ad._id,
         buyerId: user.abcId
       });
 
+      const res = await axios.post('http://localhost:5000/api/payment/create-order', {
+        amount: ad.price,
+        adId: ad._id,
+        buyerId: user.abcId
+      });
+
+      console.log('Order creation response:', res.data);
+
+      if (!res.data.order_id) {
+        setError('Failed to create order. Missing order ID.');
+        return;
+      }
+
       const options = {
-        key: 'rzp_test_l3iiBr281IE9vB', // Your Razorpay key (test key)
+        key: 'rzp_test_l3iiBr281IE9vB',
         amount: res.data.amount,
         currency: 'INR',
-        order_id: res.data.order_id,
         name: 'UniResell',
-        description: 'Purchase of a textbook/note',
-        handler: function (response) {
-          // Send payment verification to backend
-          axios.post('http://localhost:5000/api/verify-payment', {
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
-            adId: ad._id,
-            buyerId: user.abcId
-          }).then((res) => {
-            if (res.data.status === 'success') {
-              navigate('/order-confirmed', { replace: true });
+        description: `Purchase of ${ad.title}`,
+        order_id: res.data.order_id,
+        handler: async function (response) {
+          try {
+            console.log('Payment successful, verifying payment:', response);
+            
+            // Send payment verification to backend
+            const verifyRes = await axios.post('http://localhost:5000/api/payment/verify-payment', {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              adId: ad._id,
+              buyerId: user.abcId,
+              amount: ad.price
+            });
+
+            console.log('Verification response:', verifyRes.data);
+
+            if (verifyRes.data.status === 'success') {
+              navigate('/order-confirmed', { 
+                state: { 
+                  adTitle: ad.title,
+                  amount: ad.price,
+                  seller: ad.postedBy,
+                  orderId: verifyRes.data.orderId
+                }
+              });
             } else {
-              navigate('/unable-to-place-order', { replace: true });
+              setError(verifyRes.data.message || 'Payment verification failed');
             }
-          }).catch((error) => {
+          } catch (error) {
             console.error('Payment verification error:', error);
-            navigate('/unable-to-place-order', { replace: true });
-          });
+            console.error('Error response:', error.response?.data);
+            setError(error.response?.data?.message || error.message || 'Error verifying payment');
+          }
+        },
+        modal: {
+          ondismiss: function() {
+            console.log('Payment modal dismissed');
+            setError('Payment cancelled by user');
+          }
         },
         prefill: {
-          name: user ? user.abcId : 'John Doe',
-          email: user ? user.email : 'johndoe@example.com',
-          contact: '9123456789',
+          name: user.abcId,
+          email: user.email,
+          contact: ''
         },
+        theme: {
+          color: '#372948'
+        }
       };
 
+      console.log('Creating Razorpay instance with options:', {
+        amount: options.amount,
+        currency: options.currency,
+        order_id: options.order_id
+      });
+
       const razorpay = new window.Razorpay(options);
+      
+      razorpay.on('payment.failed', function (response) {
+        console.error('Payment failed:', response.error);
+        setError(response.error.description || 'Payment failed');
+      });
+
       razorpay.open();
     } catch (err) {
       console.error('Error initiating payment:', err);
-      navigate('/unable-to-place-order', { replace: true });
+      if (err.response) {
+        console.error('Error response:', {
+          status: err.response.status,
+          data: err.response.data
+        });
+      }
+      setError(err.response?.data?.message || err.message || 'Error initiating payment');
     }
   };
 
@@ -158,12 +228,18 @@ function AdDetail() {
                 </Button>
               </div>
               <div className="ad-detail-buttons">
-                <Button variant="outline-light" onClick={handleAddToCart} className="me-2">
-                  Add to Cart
-                </Button>
-                <Button variant="light" onClick={handleBuyNow}>
-                  Buy Now
-                </Button>
+                {user && ad.postedBy === user.abcId ? (
+                  <Alert variant="info" className="mb-2">This is your ad</Alert>
+                ) : (
+                  <>
+                    <Button variant="outline-light" onClick={handleAddToCart} className="me-2">
+                      Add to Cart
+                    </Button>
+                    <Button variant="light" onClick={handleBuyNow}>
+                      Buy Now
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </Col>

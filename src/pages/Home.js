@@ -77,21 +77,21 @@ function Home() {
           <h2 className="mb-4 text-center">How It Works</h2>
           <Row className="text-center">
             <Col md={4}>
-              <div className="step">
+              <div className="step" onClick={() => navigate('/signup')} style={{ cursor: 'pointer' }}>
                 <FaUserPlus size={40} />
                 <h4>Sign Up</h4>
                 <p>Create an account to start listing your items.</p>
               </div>
             </Col>
             <Col md={4}>
-              <div className="step">
+              <div className="step" onClick={() => navigate('/sell')} style={{ cursor: 'pointer' }}>
                 <FaUpload size={40} />
                 <h4>List Your Items</h4>
                 <p>Upload your books, notes, and more with ease.</p>
               </div>
             </Col>
             <Col md={4}>
-              <div className="step">
+              <div className="step" onClick={() => navigate('/active-ads')} style={{ cursor: 'pointer' }}>
                 <FaShoppingCart size={40} />
                 <h4>Sell & Connect</h4>
                 <p>Sell your items and connect with other students.</p>

@@ -49,7 +49,9 @@ router.post('/signup', async (req, res) => {
       email,
       password: hashedPassword,
       otp,
-      otpExpiration
+      otpExpiration,
+      rating: 5, // Initial 5-star rating
+      ratingCount: 0 // Initial rating count
     });
 
     await user.save();

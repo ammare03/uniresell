@@ -10,7 +10,7 @@
 
 /* Container to limit content width */
 .sell-container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -18,7 +18,7 @@
 .sell-form-card {
   background: #FFECEF;
   border: 2px solid #372948;
-  border-radius: 10px;
+  border-radius: 15px;
   padding: 30px;
   margin-bottom: 40px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -26,47 +26,158 @@
 }
 
 .sell-form-card h2 {
-  text-align: center;
   color: #372948;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Draft Alert */
+.draft-alert {
   margin-bottom: 20px;
+  border: 2px solid #372948;
 }
 
 /* Form Elements */
 .sell-form .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .sell-form .form-label {
-  font-weight: bold;
-  color: #251B37;
+  font-weight: 600;
+  color: #372948;
+  margin-bottom: 8px;
 }
 
-.sell-form .form-control {
-  background: #FFCACA;
+.sell-form .form-control,
+.sell-form .form-select {
+  background: white;
   color: #251B37;
-  border: 1px solid #372948;
-  border-radius: 4px;
-  transition: box-shadow 0.3s ease;
+  border: 2px solid #372948;
+  border-radius: 10px;
+  padding: 12px;
+  transition: all 0.3s ease;
 }
 
-.sell-form .form-control:focus {
-  box-shadow: 0 0 5px #372948;
+.sell-form .form-control:focus,
+.sell-form .form-select:focus {
+  box-shadow: 0 0 0 0.2rem rgba(55, 41, 72, 0.25);
   border-color: #372948;
 }
 
-.sell-form button {
-  background: #372948;
-  color: #FFECEF;
-  border: none;
-  border-radius: 4px;
-  padding: 10px;
-  width: 100%;
-  margin-top: 10px;
+/* Image Preview */
+.image-preview-container {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 10px 0;
+}
+
+.image-preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #372948;
   transition: transform 0.3s ease;
 }
 
-.sell-form button:hover {
-  transform: scale(1.03);
+.image-preview:hover {
+  transform: scale(1.05);
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.button-group button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.button-group button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Preview Section */
+.preview-section {
+  position: sticky;
+  top: 20px;
+  padding-left: 20px;
+}
+
+.preview-card {
+  border: 2px solid #372948;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: white;
+}
+
+.preview-card .card-img-top {
+  height: 300px;
+  object-fit: cover;
+}
+
+.preview-card .card-body {
+  padding: 20px;
+}
+
+.preview-card .card-title {
+  color: #372948;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.preview-card .card-subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.preview-card .card-text {
+  color: #251B37;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* Price Tag */
+.price-tag {
+  display: inline-block;
+  background: #372948;
+  color: #FFECEF;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+/* Tags */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.tag {
+  background: rgba(55, 41, 72, 0.1);
+  color: #372948;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 /* Active Ads Section */
@@ -98,4 +209,43 @@
 .ad-card .card-body {
   padding: 15px;
   color: #251B37;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .sell-container {
+    padding: 0;
+  }
+
+  .sell-form-card {
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .sell-form-card h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .preview-section {
+    margin-top: 20px;
+    padding-left: 0;
+  }
+
+  .preview-card .card-img-top {
+    height: 200px;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .button-group button {
+    width: 100%;
+  }
+
+  .image-preview {
+    width: 80px;
+    height: 80px;
+  }
 }
