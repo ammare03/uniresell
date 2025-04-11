@@ -100,22 +100,27 @@ const About = () => {
           <div className="team-member">
             <div className="member-avatar">AE</div>
             <h3>Ammar Engineer</h3>
-            <p>Full Stack Developer</p>
+            <p>Full Stack Developement</p>
           </div>
           <div className="team-member">
             <div className="member-avatar">UJ</div>
-            <h3>Umed Jogi</h3>
-            <p>Backend Developer</p>
+            <h3>Aryan Agarwal</h3>
+            <p>Backend Developement</p>
           </div>
           <div className="team-member">
             <div className="member-avatar">MJ</div>
-            <h3>Mehek Jalawadiya</h3>
-            <p>Frontend Developer</p>
+            <h3>Priyanka Jadhav</h3>
+            <p>Frontend Developement</p>
           </div>
           <div className="team-member">
             <div className="member-avatar">ML</div>
-            <h3>Maria Lokhandwala</h3>
+            <h3>Dhruv Kabdwal</h3>
             <p>Database Administrator</p>
+          </div>
+          <div className="team-member">
+            <div className="member-avatar">ML</div>
+            <h3>Srihari Chari</h3>
+            <p>API Integration</p>
           </div>
         </div>
       </section>

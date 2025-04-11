@@ -1,70 +1,125 @@
+/* Custom Header Styles */
 .custom-header {
-  background-color: #251B37; /* Primary dark */
-  color: #FFECEF;           /* Lightest accent */
-  position: relative;
-  padding: 10px 0;
-  border-bottom: 2px solid #FFCACA;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
 .header-content {
   position: relative;
-  z-index: 300;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
-.hamburger {
-  cursor: pointer;
-  background: linear-gradient(45deg, #372948, #FFCACA); /* Secondary to accent */
-  padding: 10px;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
-  margin-left: -30px;
-}
-
-.hamburger:hover {
-  transform: scale(1.1);
-}
-
-.hamburger .bar {
-  width: 25px;
-  height: 3px;
-  background-color: #FFECEF;
-  margin: 4px 0;
-  border-radius: 2px;
-}
-
+/* Site Title */
 .site-title {
+  color: #333;
   font-size: 1.8rem;
   font-weight: bold;
-  color: #FFECEF;
-  margin-right: -30px;
-  transition: transform 0.3s ease;
+  margin: 0;
+  text-align: center;
+  transition: color 0.3s ease;
 }
 
 .site-title:hover {
-  transform: scale(1.05);
-  color: #FFCACA;
+  color: #e67e22;
 }
 
-/* Floating Menu Styles */
+/* Hamburger Menu */
+.hamburger {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  z-index: 1100;
+}
+
+.hamburger:hover {
+  background-color: rgba(230, 126, 34, 0.1);
+}
+
+.hamburger.active {
+  background-color: rgba(230, 126, 34, 0.2);
+}
+
+/* Cart Link */
+.cart-link {
+  position: relative;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.cart-link:hover {
+  color: #e67e22;
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #e67e22;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* Login Link */
+.login-link {
+  display: flex;
+  align-items: center;
+  color: #333;
+  gap: 5px;
+  transition: color 0.3s ease;
+}
+
+.login-link:hover {
+  color: #e67e22;
+  text-decoration: none;
+}
+
+.login-text {
+  font-size: 0.9rem;
+  display: none;
+}
+
+@media (min-width: 576px) {
+  .login-text {
+    display: inline;
+  }
+}
+
+/* Floating Menu */
 .floating-menu {
-  position: fixed;
-  top: 60px; /* just below the header */
+  position: absolute;
+  top: 60px;
   left: 0;
-  width: 50vw;  /* occupies half the viewport width */
-  max-width: 300px;
-  background-color: #372948; /* secondary dark */
-  padding: 20px;
-  border: 2px solid #FFCACA; /* accent outline */
-  border-radius: 10px;
-  z-index: 250;
-  animation: fadeInMenu 0.3s ease; /* Added fade-in animation */
+  background-color: #fff7e6;
+  border: 2px solid #e67e22;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 280px;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 15px;
+  animation: slideIn 0.3s ease-out;
 }
 
-@keyframes fadeInMenu {
+@keyframes slideIn {
   from {
     opacity: 0;
     transform: translateY(-10px);
@@ -75,64 +130,133 @@
   }
 }
 
-.menu-item {
+.menu-header {
+  padding-bottom: 15px;
   margin-bottom: 15px;
-  border: 1px solid #FFCACA;
-  border-radius: 8px;
-  padding: 10px;
-  background-color: #251B37; /* primary dark */
-  transition: background-color 0.3s ease;
+  text-align: center;
 }
 
-.menu-item:hover {
-  background-color: #372948;
+.menu-header h4 {
+  display: none;
 }
 
-.menu-item a,
-.menu-item button {
-  color: #FFECEF;
-  text-decoration: none;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-}
-
-.menu-icon {
-  color: #FFCACA;
-}
-
-/* src/styles/Header.css */
-.nav-extra {
-  display: flex;
-  align-items: center;
-}
-
-.cart-link {
-  position: relative;
-  color: inherit;
-  text-decoration: none;
-}
-
-.cart-link:hover {
-  color: #f39c12;
-}
-
-.cart-count {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: #f39c12;
-  color: white;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
+.user-greeting {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  font-weight: bold;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  gap: 10px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #e67e22;
+}
+
+.menu-section {
+  margin-bottom: 25px;
+}
+
+.menu-section h5 {
+  color: #999;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  position: relative;
+  padding-left: 15px;
+}
+
+.menu-section h5::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 2px;
+  background-color: #e67e22;
+}
+
+.menu-section h5::after {
+  content: "";
+  position: absolute;
+  left: 98px;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background-color: #eee;
+}
+
+.menu-item {
+  margin-bottom: 10px;
+}
+
+.menu-item a, 
+.menu-item button {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s;
+  font-size: 1rem;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menu-item a:hover, 
+.menu-item button:hover {
+  background-color: #fff;
+  color: #e67e22;
+}
+
+.menu-icon {
+  margin-right: 12px;
+  color: #666;
+  width: 20px;
+}
+
+.logout-item button {
+  color: #e74c3c;
+}
+
+.logout-item button:hover {
+  background-color: #fff;
+  color: #c0392b;
+}
+
+.logout-item .menu-icon {
+  color: #e74c3c;
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: #e67e22;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+@media (max-width: 576px) {
+  .site-title {
+    font-size: 1.5rem;
+  }
+  
+  .floating-menu {
+    width: 100%;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    left: 0;
+    right: 0;
+    top: 60px;
+    max-height: calc(100vh - 60px);
+  }
 }

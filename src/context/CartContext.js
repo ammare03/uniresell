@@ -12,6 +12,9 @@ export const CartProvider = ({ children }) => {
       // Optionally, check if the ad already exists and increase quantity
       return [...prevItems, ad];
     });
+    
+    // Dispatch a custom event to trigger the cart badge animation
+    window.dispatchEvent(new Event('cartItemAdded'));
   };
 
   // Remove an item from the cart
