@@ -9,9 +9,9 @@ html, body {
 .user-profile-page {
   width: 100%;
   min-height: 100vh;
-  background: url('../images/website_background_intense_top.png') no-repeat center center fixed;
-  background-size: auto;
-  padding: 40px 0;
+  background: linear-gradient(to bottom, var(--background), var(--surface));
+  color: var(--text-primary);
+  padding: var(--spacing-xl) 0;
 }
 
 /* Center the main content in a narrower container */
@@ -28,105 +28,148 @@ html, body {
   align-items: center;
   justify-content: center;
   height: 80vh;
-  color: #FFECEF;
+  color: var(--text-primary);
 }
 
 .loading-container p {
-  margin-top: 15px;
+  margin-top: var(--spacing-md);
   font-size: 1.1rem;
 }
 
 /* Profile Header Card */
 .profile-header-card {
-  background-color: #251B37;
+  background-color: var(--surface);
   border: none;
-  border-radius: 15px;
-  margin-bottom: 30px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  color: #FFECEF;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  color: var(--text-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add subtle background pattern */
+.profile-header-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(94, 53, 177, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(255, 152, 0, 0.05) 0%, transparent 20%);
+  z-index: 0;
+}
+
+.profile-header-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .profile-avatar {
-  width: 100px;
-  height: 100px;
-  background-color: #372948;
+  width: 120px;
+  height: 120px;
+  background-color: var(--primary-dark);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  color: #FFCACA;
-  border: 3px solid #f39c12;
+  color: var(--text-light);
+  border: 4px solid var(--secondary);
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+}
+
+.profile-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
 }
 
 .profile-name {
-  font-size: 1.8rem;
-  color: #FFCACA;
-  margin-bottom: 10px;
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: var(--spacing-sm);
+  font-weight: 700;
 }
 
 .email-text {
   font-size: 1.1rem;
-  margin-bottom: 10px;
-  color: #FFECEF;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-secondary);
 }
 
 .user-rating {
   display: flex;
   align-items: center;
   gap: 5px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .star-icon {
-  color: #f39c12;
+  color: var(--secondary);
 }
 
 .profile-stats {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-md) 0;
+  border-top: 1px solid var(--surface-dark);
 }
 
 .stat-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5px;
+  padding: var(--spacing-sm);
+  transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
 }
 
 .stat-value {
   font-size: 1.5rem;
-  font-weight: bold;
-  color: #f39c12;
+  font-weight: 700;
+  color: var(--secondary);
 }
 
 .stat-label {
   font-size: 0.9rem;
-  color: #FFCACA;
+  color: var(--text-secondary);
+  margin-top: var(--spacing-xs);
 }
 
 /* Navigation */
 .profile-nav {
-  background-color: #251B37;
-  border-radius: 15px;
-  padding: 15px;
-  margin-bottom: 20px;
+  background-color: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  box-shadow: var(--shadow-md);
 }
 
 .profile-nav .nav-link {
-  color: #FFECEF;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  transition: background-color 0.3s ease;
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-sm);
+  transition: all 0.3s ease;
+  padding: var(--spacing-sm) var(--spacing-md);
 }
 
 .profile-nav .nav-link:hover {
-  background-color: rgba(255, 202, 202, 0.1);
+  background-color: var(--primary-light);
+  color: var(--text-light);
+  transform: translateX(5px);
 }
 
 .profile-nav .nav-link.active {
-  background-color: #f39c12;
-  color: #251B37;
+  background-color: var(--primary);
+  color: var(--text-light);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Profile Details Card */
@@ -135,22 +178,31 @@ html, body {
 .orders-card,
 .settings-card {
   border: none;
-  border-radius: 15px;
-  background-color: #251B37;
-  color: #FFECEF;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.profile-detail-card:hover,
+.ads-card:hover,
+.orders-card:hover,
+.settings-card:hover {
+  box-shadow: var(--shadow-lg);
 }
 
 .profile-detail-card .card-header,
 .ads-card .card-header,
 .orders-card .card-header,
 .settings-card .card-header {
-  background-color: #372948;
-  border-bottom: 1px solid rgba(255, 202, 202, 0.2);
-  color: #FFCACA;
-  border-radius: 15px 15px 0 0;
-  padding: 15px 20px;
+  background-color: var(--primary);
+  border-bottom: 1px solid var(--primary-dark);
+  color: var(--text-light);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: var(--spacing-md) var(--spacing-lg);
 }
 
 .profile-detail-card h3,
@@ -159,62 +211,77 @@ html, body {
 .settings-card h3 {
   margin: 0;
   font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .info-label {
-  font-weight: bold;
-  color: #FFCACA;
+  font-weight: 600;
+  color: var(--primary);
 }
 
 /* Form Styling */
 .form-label {
-  color: #FFCACA;
+  color: var(--primary);
+  font-weight: 500;
 }
 
 .form-control {
-  background-color: #372948;
-  border: 1px solid #FFCACA;
-  color: #FFECEF;
+  background-color: var(--surface);
+  border: 1px solid var(--text-hint);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  transition: all 0.3s ease;
 }
 
 .form-control:focus {
-  background-color: #372948;
-  border-color: #f39c12;
-  color: #FFECEF;
-  box-shadow: 0 0 0 0.25rem rgba(243, 156, 18, 0.25);
+  background-color: var(--surface);
+  border-color: var(--primary);
+  color: var(--text-primary);
+  box-shadow: 0 0 0 3px rgba(94, 53, 177, 0.25);
 }
 
 /* Ad Cards */
 .ad-card {
-  background-color: #372948;
+  background-color: var(--surface);
   border: none;
-  border-radius: 15px;
+  border-radius: var(--radius-lg);
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   height: 100%;
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .ad-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-lg);
 }
 
 .ad-image {
   height: 200px;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.ad-card:hover .ad-image {
+  transform: scale(1.05);
 }
 
 .ad-status-badge {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 1;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  z-index: 2;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
 }
 
 .ad-description {
-  color: #FFECEF;
-  margin-bottom: 15px;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-md);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -225,145 +292,176 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: var(--spacing-md);
 }
 
 .ad-price {
   font-size: 1.2rem;
-  font-weight: bold;
-  color: #f39c12;
+  font-weight: 700;
+  color: var(--secondary);
 }
 
 .ad-date {
-  font-size: 0.8rem;
-  color: #FFCACA;
+  font-size: 0.85rem;
+  color: var(--text-hint);
 }
 
 .ad-actions {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  gap: var(--spacing-sm);
 }
 
 /* Order Items */
 .order-item {
-  background-color: #372948;
+  background-color: var(--surface);
   border: none;
-  border-radius: 10px;
-  overflow: hidden;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.order-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
 .order-item .card-header {
-  background-color: #251B37;
-  color: #FFECEF;
-  padding: 10px 15px;
-  font-size: 0.9rem;
+  background-color: var(--primary-light);
+  color: var(--text-light);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .order-price {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #f39c12;
-  margin-bottom: 10px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--secondary);
+  margin-bottom: var(--spacing-sm);
 }
 
 .order-image {
   width: 100%;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
+  height: 150px;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  background-color: var(--surface-dark);
 }
 
 .payment-method {
-  font-size: 0.8rem;
-  color: #FFCACA;
-  margin-top: 5px;
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--surface-dark);
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
 }
 
-/* Settings Sections */
+/* Settings */
 .settings-section {
-  padding: 15px 0;
-  border-bottom: 1px solid rgba(255, 202, 202, 0.1);
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--surface-dark);
+  padding-bottom: var(--spacing-md);
 }
 
 .settings-section h4 {
-  color: #FFCACA;
-  margin-bottom: 15px;
-  font-size: 1.2rem;
+  color: var(--primary);
+  margin-bottom: var(--spacing-md);
+  font-weight: 600;
+  font-size: 1.3rem;
 }
 
 .settings-section .form-check {
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-sm);
 }
 
-/* No Content Message */
+/* No content message */
 .no-content-message {
   text-align: center;
-  padding: 30px;
-  color: #FFECEF;
+  padding: var(--spacing-xl);
+  color: var(--text-secondary);
 }
 
 .no-content-message p {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-md);
   font-size: 1.1rem;
 }
 
-/* Button Styling */
+/* Button styling */
 .btn-primary {
-  background-color: #f39c12;
-  border-color: #f39c12;
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--text-light);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-  background-color: #e67e22;
-  border-color: #e67e22;
+  background-color: var(--primary-light);
+  border-color: var(--primary-light);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-outline-primary {
-  color: #f39c12;
-  border-color: #f39c12;
+  color: var(--primary);
+  border-color: var(--primary);
+  background-color: transparent;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  transition: all 0.3s ease;
 }
 
 .btn-outline-primary:hover {
-  background-color: #f39c12;
-  color: #251B37;
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--text-light);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-outline-danger {
-  color: #e74c3c;
-  border-color: #e74c3c;
+  color: var(--error);
+  border-color: var(--error);
+  background-color: transparent;
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
 }
 
 .btn-outline-danger:hover {
-  background-color: #e74c3c;
-  color: #FFECEF;
+  background-color: var(--error);
+  border-color: var(--error);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
-/* Responsive Adjustments */
+/* Responsive styles */
 @media (max-width: 768px) {
   .user-profile-page {
-    padding: 20px 0;
+    padding: var(--spacing-md) 0;
   }
   
   .profile-avatar {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 15px;
+    width: 90px;
+    height: 90px;
+    border-width: 3px;
   }
   
   .profile-stats {
-    margin-top: 20px;
+    flex-wrap: wrap;
   }
   
   .ad-card {
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-md);
   }
   
   .profile-name {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
   
   .stat-value {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
 }

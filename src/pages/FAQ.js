@@ -47,35 +47,39 @@ function FAQ() {
   ];
 
   return (
-    <div className="faq-page">
-      <Container>
-        <section className="faq-header">
-          <h1>Frequently Asked Questions</h1>
-          <p className="lead">
-            Find answers to common questions about using UniResell. Can't find what you're looking for?
-            Visit our <a href="/contact">Contact page</a>.
-          </p>
-        </section>
+    <div className="faq-page-wrapper">
+      <div className="faq-page">
+        <Container>
+          <div className="faq-container">
+            <section className="faq-header">
+              <h1>Frequently Asked Questions</h1>
+              <p className="lead">
+                Find answers to common questions about using UniResell. Can't find what you're looking for?
+                Visit our <a href="/contact">Contact page</a>.
+              </p>
+            </section>
 
-        <section className="faq-content">
-          <Accordion>
-            {faqs.map((faq, index) => (
-              <Accordion.Item key={index} eventKey={index.toString()}>
-                <Accordion.Header>{faq.question}</Accordion.Header>
-                <Accordion.Body>{faq.answer}</Accordion.Body>
-              </Accordion.Item>
-            ))}
-          </Accordion>
-        </section>
+            <section className="faq-content">
+              <Accordion>
+                {faqs.map((faq, index) => (
+                  <Accordion.Item key={index} eventKey={index.toString()}>
+                    <Accordion.Header>{faq.question}</Accordion.Header>
+                    <Accordion.Body>{faq.answer}</Accordion.Body>
+                  </Accordion.Item>
+                ))}
+              </Accordion>
+            </section>
 
-        <section className="faq-footer">
-          <h3>Still have questions?</h3>
-          <p>
-            Our support team is here to help. Contact us through our{' '}
-            <a href="/contact">support page</a> and we'll get back to you as soon as possible.
-          </p>
-        </section>
-      </Container>
+            <section className="faq-footer">
+              <h3>Still have questions?</h3>
+              <p>
+                Our support team is here to help. Contact us through our{' '}
+                <a href="/contact">support page</a> and we'll get back to you as soon as possible.
+              </p>
+            </section>
+          </div>
+        </Container>
+      </div>
     </div>
   );
 }

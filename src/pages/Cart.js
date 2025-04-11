@@ -118,7 +118,7 @@ function Cart() {
           contact: '',
         },
         theme: {
-          color: '#372948'
+          color: '#5E35B1'
         }
       };
       
@@ -183,7 +183,7 @@ function Cart() {
                 <Button variant="dark" onClick={clearCart} disabled={loading}>
                   Clear Cart
                 </Button>
-                <Button variant="success" onClick={handlePayment} disabled={loading}>
+                <Button variant="primary" onClick={handlePayment} disabled={loading}>
                   {loading ? (
                     <>
                       <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
