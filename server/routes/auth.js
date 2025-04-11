@@ -24,8 +24,10 @@ const transporter = nodemailer.createTransport({
 // Signup Route
 router.post('/signup', async (req, res) => {
   try {
-    const { abcId, email, password } = req.body;
-    if (!abcId || !email || !password) {
+    const { abcId, email, password, name } = req.body;
+    console.log('Signup request received:', { abcId, email, name });
+    
+    if (!abcId || !email || !password || !name) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
@@ -46,12 +48,13 @@ router.post('/signup', async (req, res) => {
     // Create new user document (unverified)
     user = new User({
       abcId,
+      name,
       email,
       password: hashedPassword,
       otp,
       otpExpiration,
       rating: 5, // Initial 5-star rating
-      ratingCount: 0 // Initial rating count
+      totalRatings: 0 // Initial rating count
     });
 
     await user.save();
@@ -66,7 +69,7 @@ router.post('/signup', async (req, res) => {
 
     res.status(200).json({ message: 'Signup successful, OTP sent to email.' });
   } catch (error) {
-    console.error(error);
+    console.error('Signup error:', error);
     res.status(500).json({ message: 'Server error during signup.' });
   }
 });

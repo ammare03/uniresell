@@ -1,6 +1,6 @@
 // src/pages/Signup.js
-import React, { useState, useContext } from 'react';
-import { Container, Row, Col, Card, Form, Button, Alert, ProgressBar } from 'react-bootstrap';
+import React, { useState, useContext, useEffect } from 'react';
+import { Container, Row, Col, Card, Form, Button, Alert, ProgressBar, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import '../styles/Signup.css';
@@ -8,16 +8,101 @@ import '../styles/Signup.css';
 function Signup() {
   const [formData, setFormData] = useState({
     abcId: '',
+    name: '',
     email: '',
-    password: ''
+    password: '',
+    isValidAbcId: false,
+    abcIdError: ''
   });
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState(1); // Step 1: Signup; Step 2: OTP verification
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [strength, setStrength] = useState(0);
-  const { signup, verifyOtp } = useContext(AuthContext);
+  const [validatingId, setValidatingId] = useState(false);
+  const [idValidated, setIdValidated] = useState(false);
+  const [idError, setIdError] = useState('');
+  const { signup, verifyOtp, validateAbcId } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [abcIdError, setAbcIdError] = useState('');
+
+  // Function to validate ABC ID
+  const validateId = async () => {
+    if (!formData.abcId) return;
+    
+    try {
+      setValidatingId(true);
+      // Call the validateAbcId function from AuthContext
+      const userData = await validateAbcId(formData.abcId);
+      // Set the name from the database
+      setFormData(prev => ({
+        ...prev,
+        name: userData.name,
+        isValidAbcId: true
+      }));
+      setAbcIdError("");
+    } catch (error) {
+      setFormData(prev => ({
+        ...prev,
+        isValidAbcId: false
+      }));
+      setAbcIdError(error);
+    } finally {
+      setValidatingId(false);
+    }
+  };
+  
+  // Effect to debounce the ABC ID validation
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      validateId();
+    }, 500);
+    
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [formData.abcId]);
+  
+  // Submit form handler
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!formData.isValidAbcId) {
+      setAbcIdError("Please enter a valid ABC ID");
+      return;
+    }
+    
+    // Validate all required fields
+    if (!formData.name || !formData.email || !formData.password) {
+      setError("All fields are required");
+      return;
+    }
+    
+    try {
+      setLoading(true);
+      setError(''); // Clear any previous errors
+      
+      const message = await signup({
+        abcId: formData.abcId,
+        email: formData.email,
+        password: formData.password,
+        name: formData.name
+      });
+      
+      console.log('Signup successful:', message);
+      
+      // Set step to OTP verification
+      setStep(2);
+      setMessage("OTP has been sent to your email address. Please verify to complete registration.");
+    } catch (err) {
+      console.error('Error during signup:', err);
+      setError(typeof err === 'string' ? err : 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Evaluate password strength
   const evaluateStrength = (password) => {
@@ -39,26 +124,20 @@ function Signup() {
     }
   };
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    try {
-      const msg = await signup(formData);
-      setMessage(msg);
-      setStep(2);
-    } catch (errMsg) {
-      setError(errMsg);
-    }
-  };
-
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const msg = await verifyOtp({ abcId: formData.abcId, otp });
       setMessage(msg);
       // On successful OTP verification, redirect to login page
-      navigate('/login');
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
     } catch (errMsg) {
       setError(errMsg);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -94,7 +173,7 @@ function Signup() {
                   <>
                     <h2 className="text-center mb-4">Create an Account</h2>
                     {error && <Alert variant="danger">{error}</Alert>}
-                    <Form onSubmit={handleSignup}>
+                    <Form onSubmit={handleSubmit}>
                       <Form.Group className="mb-3">
                         <Form.Label>ABC ID</Form.Label>
                         <Form.Control
@@ -103,8 +182,37 @@ function Signup() {
                           value={formData.abcId}
                           onChange={handleChange}
                           placeholder="Enter your ABC ID"
+                          isValid={formData.isValidAbcId}
+                          isInvalid={abcIdError && formData.abcId.length > 0}
                           required
                         />
+                        <Form.Control.Feedback type="invalid">
+                          {abcIdError}
+                        </Form.Control.Feedback>
+                        <Form.Control.Feedback type="valid">
+                          ABC ID verified successfully!
+                        </Form.Control.Feedback>
+                        {validatingId && (
+                          <div className="mt-2 d-flex align-items-center">
+                            <Spinner animation="border" variant="primary" size="sm" className="me-2" />
+                            <small>Validating ABC ID...</small>
+                          </div>
+                        )}
+                      </Form.Group>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Full Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          placeholder="Enter your full name"
+                          disabled={!formData.isValidAbcId}
+                          required
+                        />
+                        <Form.Text className="text-muted">
+                          Your name will be displayed on your profile and listings.
+                        </Form.Text>
                       </Form.Group>
                       <Form.Group className="mb-3">
                         <Form.Label>Email</Form.Label>
@@ -138,8 +246,20 @@ function Signup() {
                           </small>
                         </div>
                       </Form.Group>
-                      <Button variant="dark" type="submit" className="w-100">
-                        Sign Up
+                      <Button 
+                        variant="dark" 
+                        type="submit" 
+                        className="w-100"
+                        disabled={!formData.isValidAbcId || validatingId || !formData.name || loading}
+                      >
+                        {loading ? (
+                          <>
+                            <Spinner animation="border" size="sm" className="me-2" />
+                            Signing up...
+                          </>
+                        ) : (
+                          'Sign Up'
+                        )}
                       </Button>
                     </Form>
                   </>
@@ -160,8 +280,15 @@ function Signup() {
                           required
                         />
                       </Form.Group>
-                      <Button variant="dark" type="submit" className="w-100">
-                        Verify OTP
+                      <Button variant="dark" type="submit" className="w-100" disabled={loading}>
+                        {loading ? (
+                          <>
+                            <Spinner animation="border" size="sm" className="me-2" />
+                            Verifying...
+                          </>
+                        ) : (
+                          'Verify OTP'
+                        )}
                       </Button>
                     </Form>
                   </>
