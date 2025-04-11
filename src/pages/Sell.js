@@ -1,6 +1,7 @@
 // src/pages/Sell.js
 import React, { useState, useContext, useEffect } from 'react';
 import { Container, Form, Button, Alert, Row, Col, Card } from 'react-bootstrap';
+import { FaTag, FaImage, FaEye, FaEyeSlash, FaUpload, FaDollarSign, FaInfoCircle } from 'react-icons/fa';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -177,7 +178,10 @@ function Sell() {
     <div className="sell">
       <Container className="sell-container">
         <div className="sell-form-card">
-          <h2 className="text-center mb-4">Sell Your Product</h2>
+          <h2 className="text-center mb-4">
+            <FaUpload className="me-2" />
+            Sell Your Product
+          </h2>
           {error && <Alert variant="danger">{error}</Alert>}
           {message && <Alert variant="success">{message}</Alert>}
           {isDraft && (
@@ -195,7 +199,7 @@ function Sell() {
             <Col md={isPreview ? 6 : 12}>
               <Form onSubmit={handleSubmit} className="sell-form">
                 <Form.Group className="mb-3" controlId="formTitle">
-                  <Form.Label>Title</Form.Label>
+                  <Form.Label><FaTag className="me-2" /> Title</Form.Label>
                   <Form.Control
                     type="text"
                     name="title"
@@ -207,7 +211,7 @@ function Sell() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formCategory">
-                  <Form.Label>Category</Form.Label>
+                  <Form.Label><FaInfoCircle className="me-2" /> Category</Form.Label>
                   <Form.Select
                     name="category"
                     value={adData.category}
@@ -222,7 +226,7 @@ function Sell() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formDescription">
-                  <Form.Label>Description</Form.Label>
+                  <Form.Label><FaInfoCircle className="me-2" /> Description</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
@@ -237,7 +241,7 @@ function Sell() {
                 <Row>
                   <Col md={6}>
                     <Form.Group className="mb-3" controlId="formPrice">
-                      <Form.Label>Price (₹)</Form.Label>
+                      <Form.Label><FaDollarSign className="me-2" /> Price (₹)</Form.Label>
                       <Form.Control
                         type="number"
                         name="price"
@@ -250,7 +254,7 @@ function Sell() {
                   </Col>
                   <Col md={6}>
                     <Form.Group className="mb-3" controlId="formCondition">
-                      <Form.Label>Condition</Form.Label>
+                      <Form.Label><FaInfoCircle className="me-2" /> Condition</Form.Label>
                       <Form.Select
                         name="condition"
                         value={adData.condition}
@@ -267,7 +271,7 @@ function Sell() {
                 </Row>
 
                 <Form.Group className="mb-3" controlId="formTags">
-                  <Form.Label>Tags (comma-separated)</Form.Label>
+                  <Form.Label><FaTag className="me-2" /> Tags (comma-separated)</Form.Label>
                   <Form.Control
                     type="text"
                     value={adData.tags.join(', ')}
@@ -277,7 +281,7 @@ function Sell() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formImage">
-                  <Form.Label>Product Image</Form.Label>
+                  <Form.Label><FaImage className="me-2" /> Product Image</Form.Label>
                   <Form.Control
                     type="file"
                     onChange={handleFileChange}
@@ -296,15 +300,15 @@ function Sell() {
 
                 <div className="button-group">
                   <Button
-                    variant="outline-dark"
+                    variant="outline-primary"
                     type="button"
                     onClick={() => setIsPreview(!isPreview)}
                     className="me-2"
                   >
-                    {isPreview ? 'Hide Preview' : 'Show Preview'}
+                    {isPreview ? <><FaEyeSlash className="me-2" /> Hide Preview</> : <><FaEye className="me-2" /> Show Preview</>}
                   </Button>
-                  <Button variant="dark" type="submit">
-                    Post Ad
+                  <Button variant="primary" type="submit">
+                    <FaUpload className="me-2" /> Post Ad
                   </Button>
                 </div>
               </Form>

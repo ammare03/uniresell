@@ -1,126 +1,189 @@
 /* src/styles/Sell.css */
 .sell {
   min-height: 100vh;
-  padding: 40px 20px;
-  /* Use fixed background image */
-  background: url('../images/website_background_intense_top.png') no-repeat center center fixed;
-  background-size: auto;
-  color: #251B37;
+  padding: var(--spacing-xl) 0;
+  background: linear-gradient(to bottom, var(--background), var(--surface));
+  color: var(--text-primary);
 }
 
 /* Container to limit content width */
 .sell-container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 var(--spacing-md);
 }
 
 /* Form Section (Sell Form Card) */
 .sell-form-card {
-  background: #FFECEF;
-  border: 2px solid #372948;
-  border-radius: 15px;
-  padding: 30px;
-  margin-bottom: 40px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  color: #251B37;
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  color: var(--text-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add subtle background pattern */
+.sell-form-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(94, 53, 177, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(255, 152, 0, 0.05) 0%, transparent 20%);
+  z-index: 0;
+}
+
+.sell-form-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .sell-form-card h2 {
-  color: #372948;
+  color: var(--primary);
   font-size: 2.5rem;
-  margin-bottom: 30px;
+  margin-bottom: var(--spacing-lg);
   text-align: center;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+  position: relative;
+}
+
+.sell-form-card h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  border-radius: var(--radius-sm);
 }
 
 /* Draft Alert */
 .draft-alert {
-  margin-bottom: 20px;
-  border: 2px solid #372948;
+  margin-bottom: var(--spacing-md);
+  border: none;
+  border-radius: var(--radius-md);
+  background-color: rgba(var(--info-rgb), 0.1);
+  border: 1px solid var(--info);
+  color: var(--info);
 }
 
 /* Form Elements */
 .sell-form .form-group {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-md);
 }
 
 .sell-form .form-label {
   font-weight: 600;
-  color: #372948;
-  margin-bottom: 8px;
+  color: var(--primary);
+  margin-bottom: var(--spacing-sm);
 }
 
 .sell-form .form-control,
 .sell-form .form-select {
-  background: white;
-  color: #251B37;
-  border: 2px solid #372948;
-  border-radius: 10px;
-  padding: 12px;
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--text-hint);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
   transition: all 0.3s ease;
 }
 
 .sell-form .form-control:focus,
 .sell-form .form-select:focus {
-  box-shadow: 0 0 0 0.2rem rgba(55, 41, 72, 0.25);
-  border-color: #372948;
+  box-shadow: 0 0 0 3px rgba(94, 53, 177, 0.25);
+  border-color: var(--primary);
 }
 
 /* Image Preview */
 .image-preview-container {
   display: flex;
-  gap: 10px;
+  gap: var(--spacing-sm);
   overflow-x: auto;
-  padding: 10px 0;
+  padding: var(--spacing-sm) 0;
 }
 
 .image-preview {
   width: 100px;
   height: 100px;
   object-fit: cover;
-  border-radius: 8px;
-  border: 2px solid #372948;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--surface-dark);
   transition: transform 0.3s ease;
 }
 
 .image-preview:hover {
   transform: scale(1.05);
+  box-shadow: var(--shadow-md);
 }
 
 /* Button Group */
 .button-group {
   display: flex;
-  gap: 10px;
-  margin-top: 20px;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
 }
 
 .button-group button {
   flex: 1;
-  padding: 12px;
-  border-radius: 10px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
   font-weight: 600;
   transition: all 0.3s ease;
 }
 
-.button-group button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.button-group button.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--text-light);
+}
+
+.button-group button.btn-primary:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary-light);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.button-group button.btn-outline-primary {
+  color: var(--primary);
+  border-color: var(--primary);
+  background-color: transparent;
+}
+
+.button-group button.btn-outline-primary:hover {
+  background-color: var(--primary);
+  color: var(--text-light);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
 /* Preview Section */
 .preview-section {
   position: sticky;
   top: 20px;
-  padding-left: 20px;
+  padding-left: var(--spacing-md);
 }
 
 .preview-card {
-  border: 2px solid #372948;
-  border-radius: 15px;
+  border: none;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  background: white;
+  box-shadow: var(--shadow-md);
+  background: var(--surface);
+  transition: box-shadow 0.3s ease;
+}
+
+.preview-card:hover {
+  box-shadow: var(--shadow-lg);
 }
 
 .preview-card .card-img-top {
@@ -129,106 +192,116 @@
 }
 
 .preview-card .card-body {
-  padding: 20px;
+  padding: var(--spacing-md);
 }
 
 .preview-card .card-title {
-  color: #372948;
+  color: var(--primary);
   font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .preview-card .card-subtitle {
   font-size: 1rem;
-  color: #666;
-  margin-bottom: 15px;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-md);
 }
 
 .preview-card .card-text {
-  color: #251B37;
-  margin-bottom: 20px;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
   line-height: 1.6;
 }
 
 /* Price Tag */
 .price-tag {
   display: inline-block;
-  background: #372948;
-  color: #FFECEF;
-  padding: 8px 15px;
-  border-radius: 20px;
+  background: var(--secondary);
+  color: var(--text-light);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-md);
   font-weight: bold;
   font-size: 1.2rem;
-  margin-bottom: 15px;
+  margin-bottom: var(--spacing-md);
 }
 
 /* Tags */
 .tags-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 15px;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-md);
 }
 
 .tag {
-  background: rgba(55, 41, 72, 0.1);
-  color: #372948;
-  padding: 5px 10px;
-  border-radius: 15px;
+  background-color: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
   font-size: 0.9rem;
   font-weight: 500;
 }
 
 /* Active Ads Section */
 .active-ads {
-  margin-top: 40px;
+  margin-top: var(--spacing-xl);
 }
 
 .active-ads h3 {
   text-align: center;
-  margin-bottom: 20px;
-  color: #372948;
+  margin-bottom: var(--spacing-md);
+  color: var(--primary);
+  font-weight: 600;
 }
 
 .ad-card {
-  background: #FFECEF;
-  border: 2px solid #372948;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-md);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.ad-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
 }
 
 .ad-card img {
   height: 200px;
   object-fit: cover;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
 }
 
 .ad-card .card-body {
-  padding: 15px;
-  color: #251B37;
+  padding: var(--spacing-md);
+  color: var(--text-primary);
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
+  .sell {
+    padding: var(--spacing-md) 0;
+  }
+  
   .sell-container {
-    padding: 0;
+    padding: 0 var(--spacing-sm);
   }
 
   .sell-form-card {
-    padding: 20px;
-    border-radius: 10px;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
   }
 
   .sell-form-card h2 {
     font-size: 2rem;
-    margin-bottom: 20px;
+    margin-bottom: var(--spacing-md);
   }
 
   .preview-section {
-    margin-top: 20px;
+    margin-top: var(--spacing-md);
     padding-left: 0;
   }
 
