@@ -131,15 +131,34 @@
   box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
 }
 
-.contact-info p {
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.7);
-  display: flex;
-  align-items: center;
+.footer .footer-section .contact-info,
+.footer .contact-info,
+.footer .social-links + .contact-info,
+.contact-info {
+  background-color: var(--primary-dark) !important;
+  padding: 10px;
+  border: 0 !important;
+  border-width: 0 !important;
+  border-style: none !important;
+  border-color: transparent !important;
+  border-image: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
 }
 
-.contact-info p::before {
+.footer .contact-info p {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-light) !important;
+  display: flex;
+  align-items: center;
+  background-color: var(--primary-dark) !important;
+  padding: 8px 12px;
+  border: none !important;
+}
+
+.footer .contact-info p::before {
   content: '•';
   margin-right: 8px;
   color: var(--secondary);

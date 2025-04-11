@@ -1,12 +1,95 @@
 .product-carousel {
   width: 90%;           /* 10% smaller than full width */
   margin: 0 auto;
-  border-radius: 15px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  z-index: 2;
+}
+
+.product-carousel .carousel-item {
+  transition: transform 0.6s ease-in-out;
+  position: relative;
 }
 
 .product-carousel .carousel-item img {
-  border-radius: 15px;
+  border-radius: var(--radius-lg);
   object-fit: cover;
+  transition: transform 0.5s ease;
+  filter: brightness(0.85);
+}
+
+.product-carousel:hover .carousel-item img {
+  filter: brightness(1);
+}
+
+.product-carousel .carousel-caption {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  padding: 30px 20px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.product-carousel .carousel-caption h3 {
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transform: translateY(10px);
+  opacity: 0;
+  animation: slide-up 0.5s forwards;
+}
+
+.product-carousel .carousel-caption p {
+  font-size: 1.1rem;
+  transform: translateY(10px);
+  opacity: 0;
+  animation: slide-up 0.5s 0.2s forwards;
+}
+
+.product-carousel .carousel-control-next,
+.product-carousel .carousel-control-prev {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  opacity: 0.7;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0 15px;
+}
+
+.product-carousel .carousel-control-next:hover,
+.product-carousel .carousel-control-prev:hover {
+  opacity: 1;
+  background-color: var(--secondary);
+}
+
+.product-carousel .carousel-indicators {
+  margin-bottom: 10px;
+}
+
+.product-carousel .carousel-indicators button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  opacity: 0.5;
+  margin: 0 5px;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.product-carousel .carousel-indicators button.active {
+  opacity: 1;
+  background-color: var(--secondary);
+  transform: scale(1.2);
+}
+
+@keyframes slide-up {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

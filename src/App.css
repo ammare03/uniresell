@@ -62,22 +62,26 @@
   margin: 0 auto;
 }
 
-/* Scrollbar styling */
+/* Global scrollbar hiding styles while maintaining scrolling functionality */
+/* For Webkit browsers like Chrome, Safari, and newer Edge */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 0px;  /* Hide scrollbar but maintain scroll functionality */
+  background: transparent;  /* Make scrollbar transparent */
 }
 
-::-webkit-scrollbar-track {
-  background: var(--background);
+/* For Firefox */
+* {
+  scrollbar-width: none; /* Firefox */
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--primary-light);
-  border-radius: var(--radius-sm);
+/* For IE and Edge (legacy) */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+html, body {
+  overflow-y: auto; /* Ensure scrolling still works */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 /* Page section styles */

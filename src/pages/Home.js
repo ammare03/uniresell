@@ -110,61 +110,85 @@ function Home() {
 
       <section className="how-it-works py-5">
         <Container>
-          <h2 className="section-title">How It Works</h2>
-          <p className="section-subtitle">Start selling or buying in three simple steps</p>
-          <Row className="text-center">
-            <Col md={4}>
-              <div className="step" onClick={() => navigate('/signup')} style={{ cursor: 'pointer' }}>
+          <Row className="mb-4">
+            <Col lg={12}>
+              <div className="how-works-header">
+                <h2 className="section-title">How It Works</h2>
+                <p className="section-subtitle">Start selling or buying in three simple steps</p>
+              </div>
+            </Col>
+          </Row>
+          <Row className="justify-content-center align-items-center text-center">
+            <Col md={4} className="step-column">
+              <div className="step-title">SIGN UP</div>
+              <div className="step-icon-container" onClick={() => navigate('/signup')}>
                 <FaUserPlus size={40} />
-                <h4>Sign Up</h4>
-                <p>Create an account to start listing your items.</p>
               </div>
+              <p className="step-description">
+                Create an account to start listing your items.
+              </p>
             </Col>
-            <Col md={4}>
-              <div className="step" onClick={() => navigate('/sell')} style={{ cursor: 'pointer' }}>
+            
+            <Col md={4} className="step-column">
+              <div className="step-title">LIST YOUR ITEMS</div>
+              <div className="step-icon-container" onClick={() => navigate('/sell')}>
                 <FaUpload size={40} />
-                <h4>List Your Items</h4>
-                <p>Upload your books, notes, and more with ease.</p>
               </div>
+              <p className="step-description">
+                Upload your books, notes, and more with ease.
+              </p>
             </Col>
-            <Col md={4}>
-              <div className="step" onClick={() => navigate('/active-ads')} style={{ cursor: 'pointer' }}>
+            
+            <Col md={4} className="step-column">
+              <div className="step-title">SELL & CONNECT</div>
+              <div className="step-icon-container" onClick={() => navigate('/active-ads')}>
                 <FaShoppingCart size={40} />
-                <h4>Sell & Connect</h4>
-                <p>Sell your items and connect with other students.</p>
               </div>
+              <p className="step-description">
+                Sell your items and connect with other students.
+              </p>
             </Col>
           </Row>
         </Container>
       </section>
 
-      <section className="features-section py-5">
+      <section 
+        className="features-section py-5" 
+        style={{ 
+          backgroundColor: 'white',
+          margin: '2rem',
+          borderRadius: '0.75rem',
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+        }}
+      >
         <Container>
-          <h2 className="section-title">Why Choose UniResell?</h2>
-          <p className="section-subtitle">Benefits that make us stand out</p>
-          <Row className="text-center">
-            <Col md={3}>
+          <div className="features-header">
+            <h2 className="section-title">Why Choose UniResell?</h2>
+            <p className="section-subtitle">Benefits that make us stand out</p>
+          </div>
+          <Row className="justify-content-center">
+            <Col md={3} sm={6} className="mb-4">
               <div className="feature-item">
                 <FaSearch className="feature-icon" />
                 <h4>Easy to Use</h4>
                 <p>Simple and intuitive platform for buying and selling.</p>
               </div>
             </Col>
-            <Col md={3}>
+            <Col md={3} sm={6} className="mb-4">
               <div className="feature-item">
                 <FaHandshake className="feature-icon" />
                 <h4>Secure Transactions</h4>
                 <p>Safe and reliable payment processing.</p>
               </div>
             </Col>
-            <Col md={3}>
+            <Col md={3} sm={6} className="mb-4">
               <div className="feature-item">
                 <FaShieldAlt className="feature-icon" />
                 <h4>Verified Users</h4>
                 <p>All users are verified university students.</p>
               </div>
             </Col>
-            <Col md={3}>
+            <Col md={3} sm={6} className="mb-4">
               <div className="feature-item">
                 <FaStar className="feature-icon" />
                 <h4>Rating System</h4>
@@ -175,10 +199,20 @@ function Home() {
         </Container>
       </section>
 
-      <section className="popular-categories py-5">
+      <section 
+        className="popular-categories py-5" 
+        style={{ 
+          backgroundColor: 'white',
+          margin: '2rem',
+          borderRadius: '0.75rem',
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+        }}
+      >
         <Container>
-          <h2 className="section-title">Popular Categories</h2>
-          <p className="section-subtitle">Find what you need</p>
+          <div className="categories-header">
+            <h2 className="section-title">Popular Categories</h2>
+            <p className="section-subtitle">Find what you need</p>
+          </div>
           <Row className="justify-content-center">
             <Col xs={6} md={3}>
               <div className="category-card">
@@ -198,29 +232,20 @@ function Home() {
         </Container>
       </section>
 
-      <section className="cta-section py-5">
+      <section 
+        className="testimonials py-5"
+        style={{ 
+          backgroundColor: 'white',
+          margin: '2rem',
+          borderRadius: '0.75rem',
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+        }}
+      >
         <Container>
-          <Row className="align-items-center">
-            <Col md={7}>
-              <h2>Ready to Get Started?</h2>
-              <p>Join our growing community of university students buying and selling study materials.</p>
-              <Button variant="primary" size="lg" onClick={handleGetStarted}>
-                Join Now
-              </Button>
-            </Col>
-            <Col md={5}>
-              <div className="cta-image">
-                <FaGraduationCap size={150} />
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-
-      <section className="testimonials py-5">
-        <Container>
-          <h2 className="section-title">What Students Say</h2>
-          <p className="section-subtitle">Hear from our community</p>
+          <div className="testimonials-header">
+            <h2 className="section-title">What Students Say</h2>
+            <p className="section-subtitle">Hear from our community</p>
+          </div>
           <Row>
             <Col md={4}>
               <div className="testimonial-card">
