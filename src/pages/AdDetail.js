@@ -6,7 +6,18 @@ import axios from 'axios';
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
 import { useAlert } from '../context/AlertContext';
-import { FaShare, FaRegClock } from 'react-icons/fa';
+import { 
+  FaShare, 
+  FaRegClock, 
+  FaUser, 
+  FaShoppingCart, 
+  FaMoneyBillWave, 
+  FaArrowLeft, 
+  FaStar, 
+  FaInfoCircle, 
+  FaTag, 
+  FaMapMarkerAlt 
+} from 'react-icons/fa';
 import SimilarAds from '../components/SimilarAds';
 import '../styles/AdDetail.css';
 
@@ -223,7 +234,7 @@ function AdDetail() {
     <div className="ad-detail-page">
       <Container className="py-5">
         <Button variant="outline-light" onClick={handleBack} className="mb-4 back-btn">
-          &larr; Back
+          <FaArrowLeft className="me-2" /> Back
         </Button>
 
         {shareMessage && (
@@ -248,34 +259,58 @@ function AdDetail() {
           </Col>
           <Col md={6}>
             <div className="ad-detail-content">
-              <div className="d-flex justify-content-between align-items-start">
+              <div className="d-flex justify-content-between align-items-start mb-3">
                 <h2>{ad.title}</h2>
                 <Badge bg="secondary" className="category-badge">
-                  {ad.category}
+                  <FaTag className="me-1" /> {ad.category}
                 </Badge>
               </div>
               
-              <div className="posted-date">
-                <FaRegClock className="me-2" />
+              <div className="posted-date mb-3">
+                <FaRegClock className="me-1" />
                 Posted on {formatDate(ad.createdAt)}
-              </div>
-
-              <div className="description-section">
-                <h5>Description</h5>
-                <p>{ad.description}</p>
               </div>
 
               <h4 className="price">₹{ad.price}</h4>
 
+              {ad.tags && ad.tags.length > 0 && (
+                <div className="tags-container">
+                  {ad.tags.map((tag, i) => (
+                    <span key={i} className="tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <div className="description-section">
+                <h5><FaInfoCircle className="me-2" /> Description</h5>
+                <p>{ad.description}</p>
+                
+                {ad.condition && (
+                  <p><strong>Condition:</strong> {ad.condition}</p>
+                )}
+              </div>
+
               <Card className="seller-card">
                 <Card.Body>
-                  <h5>Seller Information</h5>
+                  <h5><FaUser className="me-2" /> Seller Information</h5>
                   <div className="seller-info">
                     <p>
+                      <FaUser className="me-2" />
                       <strong>Seller:</strong> {sellerDetails && 
                         `${sellerDetails.firstName || ''} ${sellerDetails.lastName || ''}`}
                     </p>
+                    
+                    {sellerDetails && sellerDetails.location && (
+                      <p>
+                        <FaMapMarkerAlt className="me-2" />
+                        <strong>Location:</strong> {sellerDetails.location}
+                      </p>
+                    )}
+                    
                     <p>
+                      <FaStar className="me-2" />
                       <strong>Rating:</strong> {sellerDetails && sellerDetails.rating != null ? (
                         <span className="rating">
                           {sellerDetails.rating.toFixed(1)} / 5
@@ -286,11 +321,11 @@ function AdDetail() {
                       ) : 'N/A'}
                     </p>
                     <Button 
-                      variant="outline-light" 
+                      variant="outline-primary" 
                       onClick={handleViewSellerProfile} 
-                      className="mt-2"
+                      className="mt-3"
                     >
-                      View Seller Profile
+                      <FaUser className="me-2" /> View Seller Profile
                     </Button>
                   </div>
                 </Card.Body>
@@ -298,14 +333,16 @@ function AdDetail() {
 
               <div className="ad-detail-buttons">
                 {user && ad.postedBy === user.abcId ? (
-                  <Alert variant="info" className="mb-2">This is your ad</Alert>
+                  <Alert variant="info" className="mb-2 w-100 text-center">
+                    <FaInfoCircle className="me-2" /> This is your ad
+                  </Alert>
                 ) : (
                   <>
-                    <Button variant="outline-light" onClick={handleAddToCart} className="me-2">
-                      Add to Cart
+                    <Button variant="outline-primary" onClick={handleAddToCart}>
+                      <FaShoppingCart className="me-2" /> Add to Cart
                     </Button>
-                    <Button variant="light" onClick={handleBuyNow}>
-                      Buy Now
+                    <Button variant="primary" onClick={handleBuyNow}>
+                      <FaMoneyBillWave className="me-2" /> Buy Now
                     </Button>
                   </>
                 )}
@@ -315,7 +352,10 @@ function AdDetail() {
         </Row>
 
         {/* Similar Ads Section */}
-        <SimilarAds currentAdId={id} category={ad.category} />
+        <div className="mt-5">
+          <h3 className="section-title mb-4">Similar Items</h3>
+          <SimilarAds currentAdId={id} category={ad.category} />
+        </div>
       </Container>
     </div>
   );
