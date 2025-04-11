@@ -5,6 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
+import { useAlert } from '../context/AlertContext';
 import { FaShare, FaRegClock } from 'react-icons/fa';
 import SimilarAds from '../components/SimilarAds';
 import '../styles/AdDetail.css';
@@ -14,6 +15,7 @@ function AdDetail() {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const { addToCart } = useContext(CartContext);
+  const { showSuccess } = useAlert();
   const [ad, setAd] = useState(null);
   const [sellerDetails, setSellerDetails] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -53,7 +55,8 @@ function AdDetail() {
   const handleAddToCart = () => {
     addToCart(ad);
     setShareMessage('');
-    alert(`Ad "${ad.title}" added to cart!`);
+    // Use the alert context to show a success message
+    showSuccess(`Ad "${ad.title}" added to cart!`);
   };
 
   const handleShare = () => {

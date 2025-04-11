@@ -14,8 +14,15 @@ function Login() {
   const [idValidated, setIdValidated] = useState(false);
   const [idError, setIdError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const { login, validateAbcId } = useContext(AuthContext);
+  const { login, validateAbcId, isLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/');
+    }
+  }, [isLoggedIn, navigate]);
 
   const tips = [
     "Tip: A well-organized study routine is half the battle won.",
@@ -32,6 +39,9 @@ function Login() {
 
   // For ABC ID validation with debounce
   useEffect(() => {
+    // Don't validate if already redirecting (user is logged in)
+    if (isLoggedIn) return;
+    
     const validateId = async () => {
       // Clear any previous errors first
       setIdError('');
@@ -73,7 +83,7 @@ function Login() {
     }, 500);
 
     return () => clearTimeout(timeoutId);
-  }, [formData.abcId, validateAbcId]);
+  }, [formData.abcId, validateAbcId, isLoggedIn]);
 
   // Validate password format and length
   const validatePassword = (password) => {
@@ -133,6 +143,11 @@ function Login() {
       setLoading(false);
     }
   };
+
+  // If already logged in, don't render the form at all (to prevent flash before redirect)
+  if (isLoggedIn) {
+    return null;
+  }
 
   return (
     <div className="login-page">

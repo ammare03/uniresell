@@ -25,11 +25,21 @@ function Signup() {
   const [passwordError, setPasswordError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [nameError, setNameError] = useState('');
-  const { signup, verifyOtp, validateAbcId } = useContext(AuthContext);
+  const { signup, verifyOtp, validateAbcId, isLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/');
+    }
+  }, [isLoggedIn, navigate]);
 
   // Function to validate ABC ID
   const validateId = async () => {
+    // Don't validate if already redirecting (user is logged in)
+    if (isLoggedIn) return;
+    
     if (!formData.abcId) return;
     
     // Check ABC ID format before making API call
@@ -66,6 +76,9 @@ function Signup() {
   
   // Effect to debounce the ABC ID validation
   useEffect(() => {
+    // Don't run validation if already logged in
+    if (isLoggedIn) return;
+    
     const handler = setTimeout(() => {
       validateId();
     }, 500);
@@ -73,7 +86,7 @@ function Signup() {
     return () => {
       clearTimeout(handler);
     };
-  }, [formData.abcId]);
+  }, [formData.abcId, isLoggedIn]);
   
   // Email validation function
   const validateEmail = (email) => {
@@ -285,6 +298,11 @@ function Signup() {
   };
 
   const getStrengthPercentage = () => (strength / 5) * 100;
+
+  // If already logged in, don't render the form at all (to prevent flash before redirect)
+  if (isLoggedIn) {
+    return null;
+  }
 
   return (
     <div className="signup-page">

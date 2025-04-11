@@ -7,6 +7,7 @@ import { AuthContext } from '../context/AuthContext';
 import { FaArrowUp, FaFilter } from 'react-icons/fa';
 import axios from 'axios';
 import '../styles/ActiveAds.css';
+import { useAlert } from '../context/AlertContext';
 
 function ActiveAds() {
   const [ads, setAds] = useState([]);
@@ -24,6 +25,9 @@ function ActiveAds() {
   const navigate = useNavigate();
   const { addToCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
+
+  // Replace the modal state variables with useAlert
+  const { showSuccess } = useAlert();
 
   // Fetch ads from the backend
   const fetchAds = useCallback(async () => {
@@ -127,7 +131,7 @@ function ActiveAds() {
 
   const handleAddToCart = (ad) => {
     addToCart(ad);
-    alert(`Ad "${ad.title}" added to cart!`);
+    showSuccess(`Ad "${ad.title}" added to cart!`);
   };
 
   const handleViewProduct = (adId) => {
