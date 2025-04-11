@@ -14,22 +14,53 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Use the fixed background image */
-  background: url('../images/website_background_intense_top.png') no-repeat center center fixed;
-  background-size: auto;
+  background: linear-gradient(to bottom, #ebedf3, #f0f2f7);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add a subtle pattern background */
+.order-confirmed-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(94, 53, 177, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(255, 152, 0, 0.05) 0%, transparent 20%);
+  z-index: 0;
 }
 
 .order-confirmed-container {
+  position: relative;
+  z-index: 1;
   text-align: center;
-  background-color: #FFECEF;
-  border: 3px solid;
-  border-image: linear-gradient(45deg, #372948, #FFCACA) 1;
-  border-radius: 12px;
-  padding: 50px 40px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  background-color: var(--surface);
+  border: 1px solid rgba(94, 53, 177, 0.1);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl) var(--spacing-lg);
+  box-shadow: var(--shadow-md);
   max-width: 600px;
-  width: 90%; /* Slightly narrower than full width to ensure it's centered */
+  width: 90%;
   animation: fadeIn 1s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add a subtle pattern background to container */
+.order-confirmed-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(94, 53, 177, 0.03) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(255, 152, 0, 0.03) 0%, transparent 20%);
+  z-index: -1;
 }
 
 @keyframes fadeIn {
@@ -39,34 +70,132 @@ html, body {
 
 .confirmation-icon {
   font-size: 4rem;
-  color: #372948;
-  margin-bottom: 20px;
+  color: var(--success);
+  margin-bottom: var(--spacing-md);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 .order-confirmed-container h1 {
-  color: #372948;
-  font-size: 2.8rem;
-  margin-bottom: 20px;
+  color: var(--primary);
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-md);
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+  padding-bottom: var(--spacing-sm);
+}
+
+.order-confirmed-container h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  width: 50%;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary), var(--primary-light));
+  border-radius: var(--radius-sm);
 }
 
 .order-confirmed-container p {
   font-size: 1.2rem;
-  color: #251B37;
-  margin-bottom: 30px;
-  line-height: 1.5;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.6;
+}
+
+.order-info {
+  background-color: rgba(94, 53, 177, 0.05);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  text-align: left;
+}
+
+.order-detail {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.order-detail:last-child {
+  margin-bottom: 0;
+}
+
+.order-detail-icon {
+  color: var(--primary);
+  margin-right: var(--spacing-sm);
+  font-size: 1.2rem;
+}
+
+.order-detail strong {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  flex-wrap: wrap;
 }
 
 .order-confirmed-container .btn {
-  background-color: #372948;
-  color: #FFECEF;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--text-light);
   border: none;
-  border-radius: 6px;
-  padding: 12px 25px;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-lg);
   font-size: 1.1rem;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(94, 53, 177, 0.3);
+  display: flex;
+  align-items: center;
+}
+
+.order-confirmed-container .btn-outline-primary {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  box-shadow: none;
 }
 
 .order-confirmed-container .btn:hover {
-  background-color: #251B37;
-  transform: scale(1.05);
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(94, 53, 177, 0.4);
+}
+
+.order-confirmed-container .btn-outline-primary:hover {
+  background: var(--primary);
+  color: var(--text-light);
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+  .action-buttons {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .order-confirmed-container {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+  
+  .order-confirmed-container h1 {
+    font-size: 2rem;
+  }
+  
+  .confirmation-icon {
+    font-size: 3rem;
+  }
 }

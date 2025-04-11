@@ -27,7 +27,6 @@ import {
 } from 'react-icons/fa';
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
-import UserProfileMenu from './UserProfileMenu';
 import '../styles/navbar.css';
 import styled from 'styled-components';
 
@@ -433,7 +432,10 @@ const Navbar = () => {
                   )}
                 </CartIcon>
               </TopNavLink>
-              <UserProfileMenu />
+              <TopNavLink to="/profile">
+                <FaUser />
+                Profile
+              </TopNavLink>
               <TopLogoutButton onClick={handleLogout}>
                 <FaSignOutAlt />
                 Logout
