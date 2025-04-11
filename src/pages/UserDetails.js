@@ -24,7 +24,9 @@ function UserDetails() {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/users/${abcId}`);
+        // Only add isOwner=true if the current user is viewing their own profile
+        const isOwner = isOwnProfile ? '?isOwner=true' : '';
+        const res = await axios.get(`http://localhost:5000/api/users/${abcId}${isOwner}`);
         setUserDetails(res.data.user);
       } catch (err) {
         setError(err.response?.data?.message || 'Error fetching user details.');
@@ -46,6 +48,26 @@ function UserDetails() {
         try {
           const res = await axios.get(`http://localhost:5000/api/orders/buyer/${abcId}`);
           setOrderHistory(res.data.orders);
+
+          // Get detailed information for each seller
+          if (res.data.orders.length > 0) {
+            const enhancedOrders = await Promise.all(
+              res.data.orders.map(async (order) => {
+                try {
+                  const sellerRes = await axios.get(`http://localhost:5000/api/users/${order.sellerId}`);
+                  return {
+                    ...order,
+                    sellerFirstName: sellerRes.data.user.firstName || '',
+                    sellerLastName: sellerRes.data.user.lastName || ''
+                  };
+                } catch (err) {
+                  console.error(`Error fetching seller details: ${err}`);
+                  return order;
+                }
+              })
+            );
+            setOrderHistory(enhancedOrders);
+          }
         } catch (err) {
           console.error('Error fetching order history:', err);
         }
@@ -56,7 +78,28 @@ function UserDetails() {
       if (!isOwnProfile) {
         try {
           const res = await axios.get(`http://localhost:5000/api/orders/seller/${abcId}`);
-          setSellHistory(res.data.orders);
+          
+          // Get detailed information for each buyer
+          if (res.data.orders.length > 0) {
+            const enhancedOrders = await Promise.all(
+              res.data.orders.map(async (order) => {
+                try {
+                  const buyerRes = await axios.get(`http://localhost:5000/api/users/${order.buyerId}`);
+                  return {
+                    ...order,
+                    buyerFirstName: buyerRes.data.user.firstName || '',
+                    buyerLastName: buyerRes.data.user.lastName || ''
+                  };
+                } catch (err) {
+                  console.error(`Error fetching buyer details: ${err}`);
+                  return order;
+                }
+              })
+            );
+            setSellHistory(enhancedOrders);
+          } else {
+            setSellHistory(res.data.orders);
+          }
         } catch (err) {
           console.error('Error fetching sell history:', err);
         }
@@ -116,10 +159,15 @@ function UserDetails() {
           <Col md={12}>
             <Card className="profile-card mb-4">
               <Card.Body className="text-center">
-                <Card.Title>{userDetails.abcId}</Card.Title>
+                <Card.Title>
+                  {`${userDetails.firstName || ''} ${userDetails.lastName || ''}`}
+                </Card.Title>
                 <Card.Text className="email-text">Email: {userDetails.email}</Card.Text>
                 <Card.Text>
-                  Rating: {(userDetails.rating || 0).toFixed(1)} / 5 ({userDetails.ratingCount || 0} ratings)
+                  Credits: {userDetails.credits || 0}
+                </Card.Text>
+                <Card.Text>
+                  Rating: {(userDetails.rating || 0).toFixed(1)} / 5 ({userDetails.totalRatings || 0} ratings)
                 </Card.Text>
                 {!isOwnProfile && (
                   <Form onSubmit={handleRatingSubmit} className="rating-form">
@@ -212,7 +260,7 @@ function UserDetails() {
                             <Card.Text>{order.description}</Card.Text>
                             <Card.Text><strong>₹{order.price}</strong></Card.Text>
                             <Card.Text className="text-muted">
-                              Purchased from: {order.sellerId}
+                              Purchased from: {order.sellerFirstName} {order.sellerLastName}
                             </Card.Text>
                             <Card.Text className="text-muted">
                               Purchase date: {formatDate(order.purchaseDate)}
@@ -238,7 +286,7 @@ function UserDetails() {
                             <Card.Text>{order.description}</Card.Text>
                             <Card.Text><strong>₹{order.price}</strong></Card.Text>
                             <Card.Text className="text-muted">
-                              Sold to: {order.buyerId}
+                              Sold to: {order.buyerFirstName} {order.buyerLastName}
                             </Card.Text>
                             <Card.Text className="text-muted">
                               Sale date: {formatDate(order.purchaseDate)}

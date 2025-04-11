@@ -269,14 +269,15 @@ function AdDetail() {
                   <h5>Seller Information</h5>
                   <div className="seller-info">
                     <p>
-                      <strong>Seller:</strong> {ad.postedBy}
+                      <strong>Seller:</strong> {sellerDetails && 
+                        `${sellerDetails.firstName || ''} ${sellerDetails.lastName || ''}`}
                     </p>
                     <p>
                       <strong>Rating:</strong> {sellerDetails && sellerDetails.rating != null ? (
                         <span className="rating">
                           {sellerDetails.rating.toFixed(1)} / 5
                           <small className="text-muted ms-2">
-                            ({sellerDetails.ratingCount} ratings)
+                            ({sellerDetails.totalRatings} ratings)
                           </small>
                         </span>
                       ) : 'N/A'}

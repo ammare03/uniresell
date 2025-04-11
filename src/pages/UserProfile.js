@@ -21,7 +21,7 @@ function UserProfile() {
       const fetchUserDetails = async () => {
         try {
           setLoading(true);
-          const res = await axios.get(`http://localhost:5000/api/users/${user.abcId}`);
+          const res = await axios.get(`http://localhost:5000/api/users/${user.abcId}?isOwner=true`);
           setUserDetails(res.data.user);
           setLoading(false);
         } catch (err) {
@@ -51,14 +51,20 @@ function UserProfile() {
                 try {
                   // Fetch ad details for this order
                   const adRes = await axios.get(`http://localhost:5000/api/ads/${order.adId}`);
+                  
+                  // Fetch seller details
+                  const sellerRes = await axios.get(`http://localhost:5000/api/users/${order.sellerId}`);
+                  
                   return {
                     ...order,
                     adTitle: adRes.data.ad.title,
                     adImage: adRes.data.ad.image,
-                    adPrice: adRes.data.ad.price
+                    adPrice: adRes.data.ad.price,
+                    sellerFirstName: sellerRes.data.user.firstName || '',
+                    sellerLastName: sellerRes.data.user.lastName || ''
                   };
                 } catch (err) {
-                  console.error(`Error fetching ad details for order ${order._id}:`, err);
+                  console.error(`Error fetching details for order ${order._id}:`, err);
                   return order;
                 }
               })
@@ -138,12 +144,14 @@ function UserProfile() {
                       </div>
                     </Col>
                     <Col md={7}>
-                      <h2 className="profile-name">{userDetails.name || userDetails.abcId}</h2>
+                      <h2 className="profile-name">
+                        {`${userDetails.firstName || ''} ${userDetails.lastName || ''}`}
+                      </h2>
                       <p className="email-text">{userDetails.email}</p>
                       <div className="user-rating">
                         <FaStar className="star-icon" />
                         <span>{(userDetails.rating || 0).toFixed(1)}</span>
-                        <small>({userDetails.ratingCount || 0} ratings)</small>
+                        <small>({userDetails.totalRatings || 0} ratings)</small>
                       </div>
                     </Col>
                     <Col md={3} className="text-right">
@@ -210,13 +218,23 @@ function UserProfile() {
                         </Row>
                         
                         <Row className="mb-3">
-                          <Col md={3} className="info-label">Name:</Col>
-                          <Col md={9}>{userDetails.name || 'Not specified'}</Col>
+                          <Col md={3} className="info-label">First Name:</Col>
+                          <Col md={9}>{userDetails.firstName || 'Not specified'}</Col>
+                        </Row>
+
+                        <Row className="mb-3">
+                          <Col md={3} className="info-label">Last Name:</Col>
+                          <Col md={9}>{userDetails.lastName || 'Not specified'}</Col>
                         </Row>
                         
                         <Row className="mb-3">
                           <Col md={3} className="info-label">Email:</Col>
                           <Col md={9}>{userDetails.email}</Col>
+                        </Row>
+
+                        <Row className="mb-3">
+                          <Col md={3} className="info-label">Credits:</Col>
+                          <Col md={9}>{userDetails.credits || 0}</Col>
                         </Row>
                       </div>
                     </Card.Body>
@@ -320,7 +338,7 @@ function UserProfile() {
                                   </Col>
                                   <Col md={6}>
                                     <h5>{order.adTitle || 'Product'}</h5>
-                                    <p>Seller: {order.sellerId}</p>
+                                    <p>Seller: {order.sellerFirstName} {order.sellerLastName}</p>
                                   </Col>
                                   <Col md={4} className="text-end">
                                     <div className="order-price">₹{order.totalAmount || order.adPrice}</div>

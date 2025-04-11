@@ -11,8 +11,8 @@ function Signup() {
     name: '',
     email: '',
     password: '',
-    isValidAbcId: false,
-    abcIdError: ''
+    confirmPassword: '',
+    isValidAbcId: false
   });
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState(1); // Step 1: Signup; Step 2: OTP verification
@@ -20,17 +20,27 @@ function Signup() {
   const [error, setError] = useState('');
   const [strength, setStrength] = useState(0);
   const [validatingId, setValidatingId] = useState(false);
-  const [idValidated, setIdValidated] = useState(false);
-  const [idError, setIdError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [abcIdError, setAbcIdError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [nameError, setNameError] = useState('');
   const { signup, verifyOtp, validateAbcId } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [signupSuccess, setSignupSuccess] = useState(false);
-  const [abcIdError, setAbcIdError] = useState('');
 
   // Function to validate ABC ID
   const validateId = async () => {
     if (!formData.abcId) return;
+    
+    // Check ABC ID format before making API call
+    if (!/^\d{12}$/.test(formData.abcId)) {
+      setAbcIdError('ABC ID must be exactly 12 digits');
+      setFormData(prev => ({
+        ...prev,
+        isValidAbcId: false
+      }));
+      return;
+    }
     
     try {
       setValidatingId(true);
@@ -42,7 +52,7 @@ function Signup() {
         name: userData.name,
         isValidAbcId: true
       }));
-      setAbcIdError("");
+      setAbcIdError('');
     } catch (error) {
       setFormData(prev => ({
         ...prev,
@@ -65,18 +75,85 @@ function Signup() {
     };
   }, [formData.abcId]);
   
+  // Email validation function
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!email) {
+      setEmailError('Email is required');
+      return false;
+    } else if (!emailRegex.test(email)) {
+      setEmailError('Please enter a valid email address');
+      return false;
+    } else if (email.length > 100) {
+      setEmailError('Email cannot exceed 100 characters');
+      return false;
+    }
+    setEmailError('');
+    return true;
+  };
+  
+  // Name validation function
+  const validateName = (name) => {
+    if (!name) {
+      setNameError('Name is required');
+      return false;
+    } else if (name.length < 3) {
+      setNameError('Name must be at least 3 characters');
+      return false;
+    } else if (name.length > 50) {
+      setNameError('Name cannot exceed 50 characters');
+      return false;
+    }
+    setNameError('');
+    return true;
+  };
+  
   // Submit form handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Validate ABC ID
     if (!formData.isValidAbcId) {
       setAbcIdError("Please enter a valid ABC ID");
       return;
     }
     
     // Validate all required fields
-    if (!formData.name || !formData.email || !formData.password) {
+    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
       setError("All fields are required");
+      return;
+    }
+    
+    // Validate name
+    if (!validateName(formData.name)) {
+      return;
+    }
+    
+    // Validate email
+    if (!validateEmail(formData.email)) {
+      return;
+    }
+    
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setPasswordError("Passwords do not match");
+      return;
+    }
+    
+    // Validate password length
+    if (formData.password.length < 8) {
+      setPasswordError("Password must be at least 8 characters");
+      return;
+    }
+    
+    if (formData.password.length > 50) {
+      setPasswordError("Password cannot exceed 50 characters");
+      return;
+    }
+    
+    // Validate password strength
+    if (strength < 3) {
+      setPasswordError("Please use a stronger password with uppercase, lowercase, numbers, and special characters");
       return;
     }
     
@@ -113,19 +190,67 @@ function Signup() {
     if (/\d/.test(password)) score++;
     if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) score++;
     setStrength(score);
+    
+    // Provide specific feedback on password requirements
+    if (password && score < 3) {
+      let missingReqs = [];
+      if (password.length < 8) missingReqs.push("at least 8 characters");
+      if (!/[a-z]/.test(password)) missingReqs.push("lowercase letters");
+      if (!/[A-Z]/.test(password)) missingReqs.push("uppercase letters");
+      if (!/\d/.test(password)) missingReqs.push("numbers");
+      if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) missingReqs.push("special characters");
+      
+      if (missingReqs.length) {
+        setPasswordError(`Password needs: ${missingReqs.join(", ")}`);
+      }
+    } else {
+      setPasswordError('');
+    }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    
+    // Clear relevant errors
+    if (name === 'abcId') setAbcIdError('');
+    if (name === 'password' || name === 'confirmPassword') setPasswordError('');
+    if (name === 'email') setEmailError('');
+    if (name === 'name') setNameError('');
     setError('');
+    
+    // Evaluate password strength
     if (name === 'password') {
       evaluateStrength(value);
+    }
+    
+    // Check if passwords match when changing confirmPassword
+    if (name === 'confirmPassword' && value !== formData.password) {
+      setPasswordError("Passwords do not match");
+    } else if (name === 'confirmPassword') {
+      setPasswordError('');
+    }
+    
+    // Validate name on the fly
+    if (name === 'name' && value) {
+      validateName(value);
+    }
+    
+    // Validate email on the fly if it has substantial content
+    if (name === 'email' && value && value.includes('@')) {
+      validateEmail(value);
     }
   };
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
+    
+    // Validate OTP format
+    if (!/^\d{6}$/.test(otp)) {
+      setError("OTP must be a 6-digit number");
+      return;
+    }
+    
     try {
       setLoading(true);
       const msg = await verifyOtp({ abcId: formData.abcId, otp });
@@ -181,10 +306,11 @@ function Signup() {
                           name="abcId"
                           value={formData.abcId}
                           onChange={handleChange}
-                          placeholder="Enter your ABC ID"
+                          placeholder="Enter your 12-digit ABC ID"
                           isValid={formData.isValidAbcId}
                           isInvalid={abcIdError && formData.abcId.length > 0}
                           required
+                          maxLength={12}
                         />
                         <Form.Control.Feedback type="invalid">
                           {abcIdError}
@@ -199,6 +325,7 @@ function Signup() {
                           </div>
                         )}
                       </Form.Group>
+                      
                       <Form.Group className="mb-3">
                         <Form.Label>Full Name</Form.Label>
                         <Form.Control
@@ -209,11 +336,18 @@ function Signup() {
                           placeholder="Enter your full name"
                           disabled={!formData.isValidAbcId}
                           required
+                          isInvalid={nameError}
+                          minLength={3}
+                          maxLength={50}
                         />
+                        <Form.Control.Feedback type="invalid">
+                          {nameError}
+                        </Form.Control.Feedback>
                         <Form.Text className="text-muted">
                           Your name will be displayed on your profile and listings.
                         </Form.Text>
                       </Form.Group>
+                      
                       <Form.Group className="mb-3">
                         <Form.Label>Email</Form.Label>
                         <Form.Control
@@ -223,9 +357,15 @@ function Signup() {
                           onChange={handleChange}
                           placeholder="Enter your email"
                           required
+                          isInvalid={emailError}
+                          maxLength={100}
                         />
+                        <Form.Control.Feedback type="invalid">
+                          {emailError}
+                        </Form.Control.Feedback>
                       </Form.Group>
-                      <Form.Group className="mb-4">
+                      
+                      <Form.Group className="mb-3">
                         <Form.Label>Password</Form.Label>
                         <Form.Control
                           type="password"
@@ -233,7 +373,10 @@ function Signup() {
                           value={formData.password}
                           onChange={handleChange}
                           placeholder="Enter a strong password"
+                          isInvalid={passwordError && formData.password.length > 0}
                           required
+                          minLength={8}
+                          maxLength={50}
                         />
                         <div className="mt-2">
                           <ProgressBar
@@ -245,42 +388,80 @@ function Signup() {
                             Must be at least 8 characters, include upper &amp; lower case, digit, and special character.
                           </small>
                         </div>
+                        <Form.Control.Feedback type="invalid">
+                          {passwordError}
+                        </Form.Control.Feedback>
                       </Form.Group>
+                      
+                      <Form.Group className="mb-4">
+                        <Form.Label>Confirm Password</Form.Label>
+                        <Form.Control
+                          type="password"
+                          name="confirmPassword"
+                          value={formData.confirmPassword}
+                          onChange={handleChange}
+                          placeholder="Confirm your password"
+                          isInvalid={passwordError && passwordError.includes("match")}
+                          required
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {passwordError}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      
                       <Button 
                         variant="dark" 
                         type="submit" 
-                        className="w-100"
-                        disabled={!formData.isValidAbcId || validatingId || !formData.name || loading}
+                        className="w-100 mb-3"
+                        disabled={loading}
                       >
                         {loading ? (
                           <>
                             <Spinner animation="border" size="sm" className="me-2" />
-                            Signing up...
+                            Signing Up...
                           </>
                         ) : (
                           'Sign Up'
                         )}
                       </Button>
+                      
+                      <div className="text-center">
+                        <p>
+                          Already have an account? <a href="/login">Login</a>
+                        </p>
+                      </div>
                     </Form>
                   </>
                 )}
+                
                 {step === 2 && (
                   <>
-                    <h2 className="text-center mb-4">OTP Verification</h2>
+                    <h2 className="text-center mb-4">Verify Your Email</h2>
+                    {message && <Alert variant="success">{message}</Alert>}
                     {error && <Alert variant="danger">{error}</Alert>}
-                    {message && <Alert variant="info">{message}</Alert>}
                     <Form onSubmit={handleVerifyOtp}>
-                      <Form.Group className="mb-4">
-                        <Form.Label>Enter OTP</Form.Label>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Enter OTP sent to your email</Form.Label>
                         <Form.Control
                           type="text"
                           value={otp}
                           onChange={(e) => setOtp(e.target.value)}
-                          placeholder="Enter the OTP sent to your email"
+                          placeholder="Enter 6-digit OTP"
                           required
+                          maxLength={6}
+                          pattern="\d{6}"
+                          title="OTP must be a 6-digit number"
                         />
+                        <Form.Text className="text-muted">
+                          The OTP is valid for 10 minutes.
+                        </Form.Text>
                       </Form.Group>
-                      <Button variant="dark" type="submit" className="w-100" disabled={loading}>
+                      <Button 
+                        variant="dark" 
+                        type="submit" 
+                        className="w-100 mb-3"
+                        disabled={loading}
+                      >
                         {loading ? (
                           <>
                             <Spinner animation="border" size="sm" className="me-2" />
@@ -290,6 +471,15 @@ function Signup() {
                           'Verify OTP'
                         )}
                       </Button>
+                      <div className="text-center">
+                        <Button 
+                          variant="link" 
+                          className="p-0"
+                          onClick={() => setStep(1)}
+                        >
+                          Back to Sign Up
+                        </Button>
+                      </div>
                     </Form>
                   </>
                 )}

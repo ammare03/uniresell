@@ -13,6 +13,7 @@ function Login() {
   const [validatingId, setValidatingId] = useState(false);
   const [idValidated, setIdValidated] = useState(false);
   const [idError, setIdError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const { login, validateAbcId } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -32,7 +33,23 @@ function Login() {
   // For ABC ID validation with debounce
   useEffect(() => {
     const validateId = async () => {
-      if (formData.abcId.length >= 12) {
+      // Clear any previous errors first
+      setIdError('');
+
+      // Basic format validation
+      if (formData.abcId.length > 0 && !/^\d+$/.test(formData.abcId)) {
+        setIdValidated(false);
+        setIdError('ABC ID must contain only digits');
+        return;
+      }
+      
+      if (formData.abcId.length > 0 && formData.abcId.length !== 12) {
+        setIdValidated(false);
+        setIdError('ABC ID must be exactly 12 digits');
+        return;
+      }
+      
+      if (formData.abcId.length === 12) {
         setValidatingId(true);
         try {
           await validateAbcId(formData.abcId);
@@ -44,12 +61,8 @@ function Login() {
         } finally {
           setValidatingId(false);
         }
-      } else if (formData.abcId.length > 0) {
-        setIdValidated(false);
-        setIdError('ABC ID must be at least 12 characters');
       } else {
         setIdValidated(false);
-        setIdError('');
       }
     };
 
@@ -62,17 +75,50 @@ function Login() {
     return () => clearTimeout(timeoutId);
   }, [formData.abcId, validateAbcId]);
 
+  // Validate password format and length
+  const validatePassword = (password) => {
+    if (!password) {
+      setPasswordError('Password is required');
+      return false;
+    } else if (password.length < 8) {
+      setPasswordError('Password must be at least 8 characters');
+      return false;
+    } else if (password.length > 50) {
+      setPasswordError('Password cannot exceed 50 characters');
+      return false;
+    }
+    setPasswordError('');
+    return true;
+  };
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    
+    // Clear previous errors when user is typing
     setError('');
+    
+    if (name === 'password') {
+      setPasswordError('');
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validate ABC ID before submission
+    // Validate ABC ID
+    if (!formData.abcId) {
+      setIdError('ABC ID is required');
+      return;
+    }
+    
     if (!idValidated) {
-      setError('Please enter a valid ABC ID');
+      setIdError('Please enter a valid ABC ID');
+      return;
+    }
+    
+    // Validate password
+    if (!validatePassword(formData.password)) {
       return;
     }
     
@@ -106,13 +152,19 @@ function Login() {
                       name="abcId"
                       value={formData.abcId}
                       onChange={handleChange}
-                      placeholder="Enter your ABC ID"
+                      placeholder="Enter your 12-digit ABC ID"
                       isValid={idValidated}
                       isInvalid={idError && formData.abcId.length > 0}
                       required
+                      maxLength={12}
+                      pattern="\d{12}"
+                      title="ABC ID must be a 12-digit number"
                     />
                     <Form.Control.Feedback type="invalid">
                       {idError}
+                    </Form.Control.Feedback>
+                    <Form.Control.Feedback type="valid">
+                      ABC ID verified!
                     </Form.Control.Feedback>
                     {validatingId && (
                       <div className="mt-2 d-flex align-items-center">
@@ -130,13 +182,19 @@ function Login() {
                       onChange={handleChange}
                       placeholder="Enter your password"
                       required
+                      isInvalid={passwordError}
+                      minLength={8}
+                      maxLength={50}
                     />
+                    <Form.Control.Feedback type="invalid">
+                      {passwordError}
+                    </Form.Control.Feedback>
                   </Form.Group>
                   <Button 
                     variant="dark" 
                     type="submit" 
-                    className="w-100"
-                    disabled={loading || validatingId || !idValidated}
+                    className="w-100 mb-3"
+                    disabled={loading || validatingId}
                   >
                     {loading ? (
                       <>
@@ -154,6 +212,11 @@ function Login() {
                       'Login'
                     )}
                   </Button>
+                  <div className="text-center mb-3">
+                    <p>
+                      Don't have an account? <a href="/signup">Sign Up</a>
+                    </p>
+                  </div>
                 </Form>
                 <div className="tip-of-the-day mt-4">
                   <strong>Tip of the Day:</strong> {tip}
