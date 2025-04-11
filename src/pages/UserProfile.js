@@ -43,7 +43,7 @@ function UserProfile() {
       const fetchOrderHistory = async () => {
         try {
           // Get all orders for the current user
-          const res = await axios.get(`http://localhost:5000/api/orders/user/${user.abcId}`);
+          const res = await axios.get(`http://localhost:5000/api/orders/buyer/${user.abcId}`);
           if (res.data.orders) {
             // Enhanced order data with ad details
             const enhancedOrders = await Promise.all(
@@ -69,6 +69,7 @@ function UserProfile() {
                 }
               })
             );
+            console.log('Enhanced orders:', enhancedOrders); // Add this for debugging
             setOrderHistory(enhancedOrders);
           } else {
             setOrderHistory([]);
@@ -319,11 +320,12 @@ function UserProfile() {
                         </div>
                       ) : (
                         <div className="order-list">
+                          {console.log('Rendering order history:', orderHistory)}
                           {orderHistory.map((order) => (
                             <Card key={order._id} className="order-item mb-3">
                               <Card.Header className="d-flex justify-content-between">
-                                <span>Order #{order._id.substring(0, 8)}</span>
-                                <span>{formatDate(order.createdAt || new Date())}</span>
+                                <span>Order #{order._id ? order._id.substring(0, 8) : 'N/A'}</span>
+                                <span>{formatDate(order.purchaseDate || order.createdAt || new Date())}</span>
                               </Card.Header>
                               <Card.Body>
                                 <Row className="align-items-center">
@@ -331,21 +333,26 @@ function UserProfile() {
                                     {order.adImage && (
                                       <img 
                                         src={order.adImage} 
-                                        alt={order.adTitle || 'Product'} 
+                                        alt={order.adTitle || order.title || 'Product'} 
                                         className="order-image"
                                       />
                                     )}
                                   </Col>
                                   <Col md={6}>
-                                    <h5>{order.adTitle || 'Product'}</h5>
-                                    <p>Seller: {order.sellerFirstName} {order.sellerLastName}</p>
+                                    <h5>{order.adTitle || order.title || 'Product'}</h5>
+                                    <p>Seller: {order.sellerFirstName || ''} {order.sellerLastName || ''}</p>
+                                    {order.razorpay_payment_id && (
+                                      <small className="text-muted">
+                                        Payment ID: {order.razorpay_payment_id.substring(0, 12)}...
+                                      </small>
+                                    )}
                                   </Col>
                                   <Col md={4} className="text-end">
-                                    <div className="order-price">₹{order.totalAmount || order.adPrice}</div>
+                                    <div className="order-price">₹{order.totalAmount || order.price || 0}</div>
                                     <Badge 
-                                      bg={order.status === 'completed' ? 'success' : 'warning'}
+                                      bg={order.status === 'completed' ? 'success' : 'info'}
                                     >
-                                      {order.status || 'processing'}
+                                      {order.status || 'completed'}
                                     </Badge>
                                     {order.paymentMethod && (
                                       <div className="payment-method">
