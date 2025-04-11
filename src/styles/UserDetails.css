@@ -1,5 +1,13 @@
 /* src/styles/UserDetails.css */
 
+/* Define missing RGB color variables */
+:root {
+  /* RGB values for CSS opacity functions */
+  --primary-rgb: 94, 53, 177;    /* #5E35B1 */
+  --success-rgb: 76, 175, 80;    /* #4CAF50 */
+  --info-rgb: 33, 150, 243;      /* #2196F3 */
+}
+
 /* Remove default body margins for full-width background */
 html, body {
   margin: 0;
@@ -102,7 +110,8 @@ html, body {
 .star-rating {
   display: flex;
   justify-content: center;
-  margin: var(--spacing-sm) 0;
+  gap: 10px;
+  margin: 10px 0;
 }
 
 .star-rating .star {
@@ -286,4 +295,22 @@ html, body {
     padding: var(--spacing-xs) var(--spacing-sm);
     font-size: 0.9rem;
   }
+}
+
+.rating-section {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: var(--radius-md);
+  background-color: rgba(94, 53, 177, 0.05);
+}
+
+.rated-message {
+  text-align: center;
+  padding: 10px;
+}
+
+.rated-message p {
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  font-weight: 500;
 }

@@ -1,12 +1,21 @@
 // src/pages/UnableToPlaceOrder.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FaExclamationTriangle, FaHome, FaShoppingCart, FaHeadset } from 'react-icons/fa';
 import '../styles/UnableToPlaceOrder.css';
 
 function UnableToPlaceOrder() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const orderError = location.state || {};
+
+  // If accessed directly without state, redirect to home
+  useEffect(() => {
+    if (!location.state) {
+      navigate('/', { replace: true });
+    }
+  }, [location.state, navigate]);
 
   const handleGoHome = () => {
     navigate('/', { replace: true }); // Client-side redirect without reload
@@ -20,12 +29,23 @@ function UnableToPlaceOrder() {
     navigate('/contact', { replace: true });
   };
 
+  // If redirecting, don't render the component
+  if (!location.state) {
+    return null;
+  }
+
   return (
     <div className="unable-to-place-order-page">
       <div className="unable-to-place-order-container">
         <FaExclamationTriangle className="failure-icon" />
         <h1>Order Failed</h1>
         <p>We encountered an issue while processing your payment. This could be due to network issues, insufficient funds, or a temporary problem with our payment system.</p>
+        
+        {orderError.message && (
+          <div className="error-message">
+            <strong>Error details:</strong> {orderError.message}
+          </div>
+        )}
         
         <div className="error-suggestions">
           <p>You can try the following:</p>

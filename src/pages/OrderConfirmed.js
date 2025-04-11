@@ -1,5 +1,5 @@
 // src/pages/OrderConfirmed.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaCheckCircle, FaHome, FaShoppingBag, FaReceipt } from 'react-icons/fa';
@@ -10,6 +10,13 @@ function OrderConfirmed() {
   const location = useLocation();
   const orderDetails = location.state || {};
 
+  // If accessed directly without state, redirect to home
+  useEffect(() => {
+    if (!location.state) {
+      navigate('/', { replace: true });
+    }
+  }, [location.state, navigate]);
+
   const handleGoHome = () => {
     navigate('/', { replace: true });
   };
@@ -17,6 +24,11 @@ function OrderConfirmed() {
   const handleViewOrders = () => {
     navigate('/profile/orders', { replace: true });
   };
+
+  // If redirecting, don't render the component
+  if (!location.state) {
+    return null;
+  }
 
   return (
     <div className="order-confirmed-page">

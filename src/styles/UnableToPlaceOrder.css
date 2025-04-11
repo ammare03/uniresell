@@ -214,3 +214,19 @@ html, body {
     font-size: 3rem;
   }
 }
+
+.error-message {
+  background-color: rgba(244, 67, 54, 0.1);
+  border-left: 4px solid var(--error);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  text-align: left;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.error-message strong {
+  color: var(--error);
+  margin-right: var(--spacing-xs);
+}

@@ -37,8 +37,16 @@ function AppRoutes() {
         </ProtectedRoute>
       } />
       <Route path="/active-ads" element={<ActiveAds />} />
-      <Route path="/order-confirmed" element={<OrderConfirmed />} />
-      <Route path="/unable-to-place-order" element={<UnableToPlaceOrder />} />
+      <Route path="/order-confirmed" element={
+        <ProtectedRoute>
+          <OrderConfirmed />
+        </ProtectedRoute>
+      } />
+      <Route path="/unable-to-place-order" element={
+        <ProtectedRoute>
+          <UnableToPlaceOrder />
+        </ProtectedRoute>
+      } />
       <Route path="/profile" element={
         <ProtectedRoute>
           <UserProfile />

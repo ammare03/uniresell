@@ -18,6 +18,7 @@ function UserDetails() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('active');
+  const [hasRated, setHasRated] = useState(false);
   const isOwnProfile = currentUser && currentUser.abcId === abcId;
 
   // Fetch user details and their ads
@@ -106,19 +107,51 @@ function UserDetails() {
       }
     };
 
+    // Check if the current user has already rated this seller
+    const checkPreviousRating = async () => {
+      if (currentUser && !isOwnProfile) {
+        try {
+          const res = await axios.get(`http://localhost:5000/api/users/${abcId}/has-rated?raterAbcId=${currentUser.abcId}`);
+          setHasRated(res.data.hasRated);
+          if (res.data.hasRated && res.data.existingRating) {
+            setNewRating(res.data.existingRating.rating);
+            setMessage('You have already rated this user.');
+          }
+        } catch (err) {
+          console.error('Error checking previous rating:', err);
+        }
+      }
+    };
+
     fetchUserDetails();
     fetchUserAds();
     fetchOrderHistory();
     fetchSellHistory();
-  }, [abcId, isOwnProfile]);
+    checkPreviousRating();
+  }, [abcId, isOwnProfile, currentUser]);
 
   const handleRatingSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!currentUser) {
+      setError('You must be logged in to rate users.');
+      return;
+    }
+    
+    if (hasRated) {
+      setError('You have already rated this user.');
+      return;
+    }
+    
     try {
-      const res = await axios.post(`http://localhost:5000/api/users/${abcId}/rate`, { newRating });
+      const res = await axios.put(`http://localhost:5000/api/users/${abcId}/rating`, { 
+        rating: newRating,
+        raterAbcId: currentUser.abcId 
+      });
+      
       setUserDetails(res.data.user);
       setMessage(`Thank you! The new average rating is ${res.data.user.rating.toFixed(1)} / 5.`);
-      setNewRating(0);
+      setHasRated(true);
     } catch (err) {
       setError(err.response?.data?.message || 'Error updating rating.');
     }
@@ -169,24 +202,46 @@ function UserDetails() {
                 <Card.Text>
                   Rating: {(userDetails.rating || 0).toFixed(1)} / 5 ({userDetails.totalRatings || 0} ratings)
                 </Card.Text>
-                {!isOwnProfile && (
-                  <Form onSubmit={handleRatingSubmit} className="rating-form">
-                    <Form.Label>Rate this user:</Form.Label>
-                    <div className="star-rating">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <FaStar
-                          key={star}
-                          size={24}
-                          color={newRating >= star ? "#FFC107" : "#e4e5e9"}
-                          style={{ cursor: 'pointer' }}
-                          onClick={() => setNewRating(star)}
-                        />
-                      ))}
-                    </div>
-                    <Button variant="primary" type="submit" className="mt-2">
-                      Submit Rating
-                    </Button>
-                  </Form>
+                {!isOwnProfile && currentUser && (
+                  <div className="rating-section">
+                    {hasRated ? (
+                      <div className="rated-message">
+                        <p>You've already rated this user.</p>
+                        <div className="star-rating">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <FaStar
+                              key={star}
+                              size={24}
+                              color={newRating >= star ? "#FFC107" : "#e4e5e9"}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <Form onSubmit={handleRatingSubmit} className="rating-form">
+                        <Form.Label>Rate this user:</Form.Label>
+                        <div className="star-rating">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <FaStar
+                              key={star}
+                              size={24}
+                              color={newRating >= star ? "#FFC107" : "#e4e5e9"}
+                              style={{ cursor: 'pointer' }}
+                              onClick={() => setNewRating(star)}
+                            />
+                          ))}
+                        </div>
+                        <Button 
+                          variant="primary" 
+                          type="submit" 
+                          className="mt-2"
+                          disabled={newRating === 0}
+                        >
+                          Submit Rating
+                        </Button>
+                      </Form>
+                    )}
+                  </div>
                 )}
                 {message && <Alert variant="success" className="mt-3">{message}</Alert>}
               </Card.Body>
